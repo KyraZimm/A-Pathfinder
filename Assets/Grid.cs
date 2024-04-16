@@ -6,7 +6,6 @@ public class Grid<T>  {
     int width;
     int height;
     Vector2 origin;
-    
     float cellSize;
 
     T[,] nodes;
@@ -20,6 +19,9 @@ public class Grid<T>  {
         nodes = new T[width, height];
     }
 
+    public int GetWidth() { return width; }
+    public int GetHeight() { return height; }
+    public float GetCellSize() { return cellSize; }
 
     public Vector2 GetNodeWorldPos(int x, int y) { //returns world space of grid node
         return new Vector2(x + origin.x, y + origin.y) * cellSize;
