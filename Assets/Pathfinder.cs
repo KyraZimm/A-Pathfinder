@@ -84,7 +84,7 @@ public class Pathfinder {
 
                 int approxGCost = currNode.gCost + DistanceCost(currNode, neighbor);
                 if (approxGCost < neighbor.gCost) {
-                    neighbor.previousNode = neighbor;
+                    neighbor.previousNode = currNode;
                     neighbor.gCost = approxGCost;
                     neighbor.hCost = DistanceCost(neighbor, endNode);
 
@@ -146,9 +146,9 @@ public class Pathfinder {
         }
 
         if (node.y + 1 < Grid.GetHeight())
-            neighbors.Add(GetNode(node.x - 1, node.y + 1)); //north node
+            neighbors.Add(GetNode(node.x, node.y + 1)); //north node
         if (node.y > 0)
-            neighbors.Add(GetNode(node.x - 1, node.y - 1)); //south node
+            neighbors.Add(GetNode(node.x, node.y - 1)); //south node
 
         return neighbors;
     }
