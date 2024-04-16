@@ -12,11 +12,13 @@ public class PathNode {
     public int fCost { get { return gCost + hCost; } }
 
     public PathNode previousNode;
+    public bool isWalkable = true;
 
     public PathNode(int x, int y, Grid<PathNode> parentGrid) {
         this.x = x;
         this.y = y;
         this.worldPos = parentGrid.GetCellWorldPos(x, y);
+        isWalkable = true;
     }
 }
 
@@ -29,8 +31,8 @@ public class Pathfinder {
     private List<PathNode> openNodes;
     private List<PathNode> closedNodes;
 
-    public Pathfinder(int width, int height) {
-        Grid = new Grid<PathNode>(width, height, 10f, Vector2.zero);
+    public Pathfinder(int width, int height, Vector2 cellSize, Vector2 origin) {
+        Grid = new Grid<PathNode>(width, height, cellSize, origin);
 
         //fill pathnodes
         for (int x = 0; x < width; x++) {
@@ -58,6 +60,7 @@ public class Pathfinder {
         openNodes = new List<PathNode>() { startNode };
         closedNodes = new List<PathNode>();
 
+        //reset grid values from prior searches
         for (int x = 0; x < Grid.GetWidth(); x++) {
             for (int y = 0; y < Grid.GetHeight(); y++) {
                 PathNode node = Grid.GetValueAtCoords(x, y);
@@ -77,10 +80,15 @@ public class Pathfinder {
             openNodes.Remove(currNode);
             closedNodes.Add(currNode);
 
+            //search neighboring nodes for A) closest to end node & B) cheapest to walk to
             List<PathNode> neighbors = GetNeighborNodes(currNode);
             foreach (PathNode neighbor in neighbors) {
                 if (closedNodes.Contains(neighbor))
                     continue;
+                if (!neighbor.isWalkable) {
+                    closedNodes.Add(neighbor);
+                    continue;
+                }
 
                 int approxGCost = currNode.gCost + DistanceCost(currNode, neighbor);
                 if (approxGCost < neighbor.gCost) {

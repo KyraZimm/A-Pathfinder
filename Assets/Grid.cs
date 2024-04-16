@@ -6,11 +6,11 @@ public class Grid<T> {
     int width;
     int height;
     Vector2 origin;
-    float cellSize;
+    Vector2 cellSize;
 
     T[,] cells;
 
-    public Grid(int width, int height, float cellSize, Vector2 origin) {
+    public Grid(int width, int height, Vector2 cellSize, Vector2 origin) {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
@@ -21,15 +21,15 @@ public class Grid<T> {
 
     public int GetWidth() { return width; }
     public int GetHeight() { return height; }
-    public float GetCellSize() { return cellSize; }
+    public Vector2 GetCellSize() { return cellSize; }
 
     public Vector2 GetCellWorldPos(int x, int y) {
         return new Vector2(x + origin.x, y + origin.y) * cellSize;
     }
 
     public void GetCellCoords(Vector2 worldPos, out int x, out int y) {
-        x = Mathf.FloorToInt((worldPos.x - origin.x)/ cellSize);
-        y = Mathf.FloorToInt((worldPos.y - origin.y)/ cellSize);
+        x = Mathf.FloorToInt((worldPos.x - origin.x)/ cellSize.x);
+        y = Mathf.FloorToInt((worldPos.y - origin.y)/ cellSize.y);
     }
 
     public void SetValueAtCoords(int x, int y, T value) {
