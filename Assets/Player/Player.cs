@@ -47,11 +47,6 @@ public class Player : MonoBehaviour {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             currPath = map.GetPath(rb.position, mousePos);
             isWalking = true;
-
-            Debug.Log($"{currPath.Count} nodes in path");
-            for (int i = 1; i < currPath.Count; i++) {
-                Debug.DrawLine(currPath[i - 1].worldPos, currPath[i].worldPos, Color.red, 10f);
-            }
         }
     }
 
