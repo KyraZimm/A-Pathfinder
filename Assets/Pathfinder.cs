@@ -114,6 +114,7 @@ public class Pathfinder {
             currNode = currNode.previousNode;
         }
 
+        path.Reverse();
         return path;
     }
 
