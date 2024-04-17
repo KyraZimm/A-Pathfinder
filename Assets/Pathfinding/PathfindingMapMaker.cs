@@ -18,9 +18,12 @@ public class PathfindingMapMaker : MonoBehaviour {
     private void Awake() {
         pathfinder = new Pathfinder(numMapCellsAcross, numMapCellsHigh, mapCellSize, mapOrigin);
 
-        for (int x = 0; x < numMapCellsAcross; x++)
-            for (int y = 0; y < numMapCellsHigh; y++)
-                Instantiate(mapCellPrefab, pathfinder.Grid.GetCellWorldPos(x, y), Quaternion.identity);
+        for (int x = 0; x < numMapCellsAcross; x++) {
+            for (int y = 0; y < numMapCellsHigh; y++) {
+                GameObject cell = Instantiate(mapCellPrefab, pathfinder.Grid.GetCellWorldPos(x, y) + mapCellSize / 2, Quaternion.identity);
+                cell.transform.localScale = mapCellSize;
+            }
+        }
     }
 
     public List<PathNode> GetPath(Vector2 startWorldPos, Vector2 endWorldPos) {
