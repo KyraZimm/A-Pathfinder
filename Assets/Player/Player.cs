@@ -29,7 +29,7 @@ public class Player : MonoBehaviour {
         if (isWalking) {
 
             //check if curr path index should be updated
-            if (Vector2.Distance(rb.position, currPath[targetIndex].worldPos + nodeDisp) < DIST_THRESHOLD)
+            if (Vector2.Distance(rb.position, currPath[targetIndex].worldPos) < DIST_THRESHOLD)
                 targetIndex++;
 
             //if player is at end of path, finish walking
@@ -39,7 +39,7 @@ public class Player : MonoBehaviour {
             }
 
             //else, keep walking towards next node
-            Vector2 target = currPath[targetIndex].worldPos + nodeDisp;
+            Vector2 target = currPath[targetIndex].worldPos;
             Vector2 towardsNextNode = (target - rb.position).normalized;
             rb.MovePosition(rb.position + (towardsNextNode * walkingSpeed * Time.deltaTime));
         }
@@ -55,7 +55,7 @@ public class Player : MonoBehaviour {
 
     private void TeleportPlayerToCell(int x, int y) {
         CancelWalking();
-        Vector2 worldPos = map.MapGrid.GetCellWorldPos(x, y) + nodeDisp;
+        Vector2 worldPos = map.MapGrid.GetCellWorldPos(x, y);
         rb.MovePosition(worldPos);
     }
 

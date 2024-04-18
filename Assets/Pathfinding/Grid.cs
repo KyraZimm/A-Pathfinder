@@ -24,7 +24,7 @@ public class Grid<T> {
     public Vector2 GetCellSize() { return cellSize; }
 
     public Vector2 GetCellWorldPos(int x, int y) {
-        return new Vector2(x + origin.x, y + origin.y) * cellSize;
+        return (new Vector2(x + origin.x, y + origin.y) * cellSize) + (cellSize/2); //returns center of cell
     }
 
     public void GetCellCoords(Vector2 worldPos, out int x, out int y) {

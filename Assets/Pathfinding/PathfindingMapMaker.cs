@@ -20,7 +20,7 @@ public class PathfindingMapMaker : MonoBehaviour {
 
         for (int x = 0; x < numMapCellsAcross; x++) {
             for (int y = 0; y < numMapCellsHigh; y++) {
-                GameObject cell = Instantiate(mapCellPrefab, pathfinder.Grid.GetCellWorldPos(x, y) + mapCellSize / 2, Quaternion.identity);
+                GameObject cell = Instantiate(mapCellPrefab, pathfinder.Grid.GetCellWorldPos(x, y), Quaternion.identity);
                 cell.transform.localScale = mapCellSize;
             }
         }
