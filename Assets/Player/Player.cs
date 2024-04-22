@@ -8,8 +8,6 @@ public class Player : MonoBehaviour {
 
     private Rigidbody2D rb;
     private bool isWalking = false;
-    private const float DIST_THRESHOLD = 0.01f;
-    private Vector2 nodeDisp;
 
     private List<PathNode> currPath = new List<PathNode>();
     private int targetIndex;
@@ -19,8 +17,6 @@ public class Player : MonoBehaviour {
     }
 
     private void Start() {
-        nodeDisp = map.MapGrid.GetCellSize() / 2;
-
         //set player at map origin
         TeleportPlayerToCell(0, 0);
     }
@@ -28,19 +24,22 @@ public class Player : MonoBehaviour {
     private void Update() {
         if (isWalking) {
 
-            //check if curr path index should be updated
-            if (Vector2.Distance(rb.position, currPath[targetIndex].worldPos) < DIST_THRESHOLD)
-                targetIndex++;
-
             //if player is at end of path, finish walking
             if (targetIndex == currPath.Count) {
                 CancelWalking();
                 return;
             }
 
+            //if player should reach next node this frame, just place them there and wait for next frame
+            if (Vector2.Distance(rb.position, currPath[targetIndex].worldPos) <= walkingSpeed * Time.deltaTime) {
+                rb.MovePosition(currPath[targetIndex].worldPos);
+                targetIndex++;
+                return;
+            }
+
             //else, keep walking towards next node
-            Vector2 target = currPath[targetIndex].worldPos;
-            Vector2 towardsNextNode = (target - rb.position).normalized;
+            Vector2 targetPos = currPath[targetIndex].worldPos;
+            Vector2 towardsNextNode = (targetPos - rb.position).normalized;
             rb.MovePosition(rb.position + (towardsNextNode * walkingSpeed * Time.deltaTime));
         }
 
