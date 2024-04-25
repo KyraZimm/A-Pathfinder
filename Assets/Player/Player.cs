@@ -8,9 +8,11 @@ public class Player : MonoBehaviour {
 
     private Rigidbody2D rb;
     private bool isWalking = false;
+    private bool mapEditingLastFrame = false;
 
     private List<PathNode> currPath = new List<PathNode>();
     private int targetIndex;
+
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
@@ -22,6 +24,19 @@ public class Player : MonoBehaviour {
     }
 
     private void Update() {
+
+        //if map was just switched to edit mode, move player & stop walking
+        if (map.EditMode != mapEditingLastFrame && mapEditingLastFrame == false) {
+            CancelWalking();
+            TeleportPlayerToCell(0, 0);
+            return;
+        }
+        mapEditingLastFrame = map.EditMode;
+
+        //if map is in edit mode, do not allow player to walk
+        if (map.EditMode)
+            return;
+
         if (isWalking) {
 
             //if player is at end of path, finish walking
@@ -31,7 +46,7 @@ public class Player : MonoBehaviour {
             }
 
             //if player should reach next node this frame, just place them there and wait for next frame
-            if (Vector2.Distance(rb.position, currPath[targetIndex].worldPos) <= walkingSpeed * Time.deltaTime) {
+            if (Vector2.Distance(rb.position, currPath[targetIndex].worldPos) < walkingSpeed * Time.deltaTime) {
                 rb.MovePosition(currPath[targetIndex].worldPos);
                 targetIndex++;
                 return;
