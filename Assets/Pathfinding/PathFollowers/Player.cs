@@ -13,7 +13,6 @@ public class Player : MonoBehaviour {
     private List<PathNode> currPath = new List<PathNode>();
     private int targetIndex;
 
-
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
     }

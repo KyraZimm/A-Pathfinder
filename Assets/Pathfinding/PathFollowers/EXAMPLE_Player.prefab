@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2950259529316761978}
   - component: {fileID: 1776851309256756770}
-  - component: {fileID: 2402231915396369586}
   - component: {fileID: 8196467595186225006}
+  - component: {fileID: 1023291625633102313}
   m_Layer: 0
-  m_Name: Player
+  m_Name: EXAMPLE_Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,20 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2402231915396369586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 551378417195154649}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2184666b0ce6bcd459a28cb526f05433, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  map: {fileID: 0}
-  walkingSpeed: 1
 --- !u!50 &8196467595186225006
 Rigidbody2D:
   serializedVersion: 4
@@ -127,3 +113,17 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1023291625633102313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551378417195154649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6d97d5ad08b864418b95469e6a188a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  componentToMove: 0
+  speed: 10

@@ -10,6 +10,8 @@ public class PathfindingMapMaker : MonoBehaviour {
     [SerializeField] Vector2 mapOrigin;
     [Header("TEMP: Map Tile")]
     [SerializeField] GameObject mapCellPrefab;
+    [Header("TEMP: Connected Players")]
+    [SerializeField] PathFollower[] pathFollowers;
 
     Pathfinder pathfinder;
 
@@ -31,6 +33,10 @@ public class PathfindingMapMaker : MonoBehaviour {
 
                 visualGrid.SetValueAtCoords(x, y, cell);
             }
+        }
+
+        foreach (PathFollower follower in pathFollowers) {
+            follower.Init(pathfinder);
         }
     }
 
