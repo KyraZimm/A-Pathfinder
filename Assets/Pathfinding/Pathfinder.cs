@@ -57,6 +57,13 @@ public class Pathfinder {
         PathNode startNode = Grid.GetValueAtCoords(startX, startY);
         PathNode endNode = Grid.GetValueAtCoords(endX, endY);
 
+        //if a position from outside the grid was passed in, do not search grid
+        if (startNode == null || endNode == null) {
+            Debug.LogWarning($"Pathfinder bounds do not cover the space between ({startX}, {startY}) and ({endX}, {endY}). Returning null path.");
+            return null;
+        }
+            
+
         openNodes = new List<PathNode>() { startNode };
         closedNodes = new List<PathNode>();
 

@@ -41,7 +41,7 @@ public class PathFollower : MonoBehaviour {
             return;
         }
 
-        if (isWalking) {
+        if (isWalking && currPath != null) {
 
             //if player is at end of path, finish walking
             if (targetIndex == currPath.Count) {
@@ -132,8 +132,10 @@ public class PathFollower : MonoBehaviour {
 
     private void CancelWalking() {
         isWalking = false;
-        currPath.Clear();
         targetIndex = 0;
+
+        if (currPath != null)
+            currPath.Clear();
 
         if (componentToMove == MoveMode.RigidbodyVelocity)
             rb.velocity = Vector2.zero;
