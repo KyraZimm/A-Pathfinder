@@ -21,9 +21,11 @@ public class PathFollower : MonoBehaviour {
 
     public void Init(Pathfinder connectedMap) {
         map = connectedMap;
+        rb = GetComponent<Rigidbody2D>();
     }
     private void Awake() {
-        rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+            rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update() {
@@ -45,35 +47,15 @@ public class PathFollower : MonoBehaviour {
 
             //if player should reach next node this frame, just place them there and wait for next frame
             if (Vector2.Distance(transform.position, currPath[targetIndex].worldPos) < speed * Time.deltaTime) {
-                switch (componentToMove) {
-                    case MoveMode.Transform:
-                        transform.position = currPath[targetIndex].worldPos;
-                        break;
-                    case MoveMode.RigidbodyPosition:
-                        rb.MovePosition(currPath[targetIndex].worldPos);
-                        break;
-                    case MoveMode.RigidbodyVelocity:
-                        break;
-                }
-
+                MoveInDirection(currPath[targetIndex].worldPos);
                 targetIndex++;
                 return;
             }
 
             //else, keep walking towards next node
             Vector2 targetPos = currPath[targetIndex].worldPos;
-            Vector2 towardsNextNode = (targetPos - rb.position).normalized;
-            switch (componentToMove) {
-                case MoveMode.Transform:
-                    transform.position = (Vector2)transform.position + (towardsNextNode * speed * Time.deltaTime);
-                    break;
-                case MoveMode.RigidbodyPosition:
-                    rb.MovePosition(rb.position + (towardsNextNode * speed * Time.deltaTime));
-                    break;
-                case MoveMode.RigidbodyVelocity:
-                    rb.velocity = towardsNextNode * speed;
-                    break;
-            }
+            Vector2 towardsNextNode = targetPos - (Vector2)transform.position;
+            MoveInDirection(towardsNextNode);
         }
 
         if (Input.GetMouseButtonDown(0)) {
@@ -85,10 +67,52 @@ public class PathFollower : MonoBehaviour {
         }
     }
 
+    //use for smoothed movement
+    private void MoveInDirection(Vector2 dir) {
+        //custom means of normalizing vector, for speed
+        double v = Math.Sqrt((dir.x * dir.x) + (dir.y * dir.y));
+        if (v > 9.99999974737875E-06) {
+            float fv = (float)v;
+            dir.x /= fv;
+            dir.y /= fv;
+        }
+        else
+            dir = Vector3.zero;
+
+        //move in direction based on physics type
+        switch (componentToMove) {
+            case MoveMode.Transform:
+                transform.position = Vector2.Lerp(transform.position, (Vector2)transform.position + (dir * speed), Time.deltaTime);
+                break;
+            case MoveMode.RigidbodyPosition:
+                rb.MovePosition(rb.position + (dir * speed * Time.deltaTime));
+                break;
+            case MoveMode.RigidbodyVelocity:
+                rb.velocity = dir * speed;
+                break;
+        }
+    }
+
+    //use for immediate placement at pos - unsmoothed
+    private void MoveToPos(Vector2 pos) {
+        switch (componentToMove) {
+            case MoveMode.Transform:
+                transform.position = pos;
+                break;
+            case MoveMode.RigidbodyPosition:
+                rb.MovePosition(pos);
+                break;
+            case MoveMode.RigidbodyVelocity:
+                rb.position = pos;
+                rb.velocity = Vector2.zero;
+                break;
+        }
+    }
+
     private void TeleportPlayerToCell(int x, int y) {
         CancelWalking();
         Vector2 worldPos = map.Grid.GetCellWorldPos(x, y);
-        rb.MovePosition(worldPos);
+        MoveToPos(worldPos);
     }
 
     private void CancelWalking() {
