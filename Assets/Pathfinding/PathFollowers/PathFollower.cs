@@ -23,6 +23,9 @@ public class PathFollower : MonoBehaviour {
         map = connectedMap;
         rb = GetComponent<Rigidbody2D>();
     }
+
+    public void AllowMovement(bool canMove){ canWalk = canMove; }
+
     private void Awake() {
         if (rb == null)
             rb = GetComponent<Rigidbody2D>();

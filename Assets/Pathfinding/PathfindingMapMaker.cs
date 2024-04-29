@@ -10,20 +10,21 @@ public class PathfindingMapMaker : MonoBehaviour {
     [SerializeField] Vector2 mapOrigin;
     [Header("TEMP: Map Tile")]
     [SerializeField] GameObject mapCellPrefab;
-    [Header("TEMP: Connected Players")]
-    [SerializeField] PathFollower[] pathFollowers;
 
     Pathfinder pathfinder;
+    PathFollower[] pathFollowers;
 
     public Grid<PathNode> MapGrid { get { return pathfinder.Grid; } }
     private Grid<GameObject> visualGrid;
 
     public bool EditMode { get; private set; }
+    private bool editModeLastFrame;
 
     private void Awake() {
         EditMode = false;
-        pathfinder = new Pathfinder(numMapCellsAcross, numMapCellsHigh, mapCellSize, mapOrigin);
+        editModeLastFrame = EditMode;
 
+        pathfinder = new Pathfinder(numMapCellsAcross, numMapCellsHigh, mapCellSize, mapOrigin);
         visualGrid = new Grid<GameObject>(numMapCellsAcross, numMapCellsHigh, mapCellSize, mapOrigin);
 
         for (int x = 0; x < numMapCellsAcross; x++) {
@@ -35,6 +36,7 @@ public class PathfindingMapMaker : MonoBehaviour {
             }
         }
 
+        pathFollowers = GameObject.FindObjectsOfType<PathFollower>();
         foreach (PathFollower follower in pathFollowers) {
             follower.Init(pathfinder);
         }
@@ -47,6 +49,13 @@ public class PathfindingMapMaker : MonoBehaviour {
     public void ToggleEditMode() { EditMode = !EditMode; }
 
     private void Update() {
+        if (EditMode != editModeLastFrame) {
+            foreach (PathFollower follower in pathFollowers)
+                follower.AllowMovement(!EditMode);
+
+            editModeLastFrame = EditMode;
+        }
+
         if (!EditMode)
             return;
 
