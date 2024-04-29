@@ -704,27 +704,18 @@ MonoBehaviour:
   mapOrigin: {x: 0, y: 0}
   mapCellPrefab: {fileID: 895053998669166996, guid: 823f9c53058ab2a4b9a4e0e7c7e05fa4, type: 3}
   pathFollowers:
-  - {fileID: 1792521875}
---- !u!1 &1792521870 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 551378417195154649, guid: 37806319feb5383429e09843b7751e65, type: 3}
+  - {fileID: 1792521876}
+--- !u!114 &1792521876 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1023291625633102313, guid: 37806319feb5383429e09843b7751e65, type: 3}
   m_PrefabInstance: {fileID: 8796346639364856614}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1792521875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1792521870}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f6d97d5ad08b864418b95469e6a188a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapMaker: {fileID: 0}
-  componentToMove: 0
-  speed: 30
 --- !u!1001 &8796346639364856614
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -789,10 +780,7 @@ PrefabInstance:
     - {fileID: 2402231915396369586, guid: 37806319feb5383429e09843b7751e65, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 551378417195154649, guid: 37806319feb5383429e09843b7751e65, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1792521875}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37806319feb5383429e09843b7751e65, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
