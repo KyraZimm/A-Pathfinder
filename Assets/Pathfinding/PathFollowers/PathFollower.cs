@@ -4,32 +4,33 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PathFollower : MonoBehaviour {
-    [SerializeField] MoveMode componentToMove;
     [SerializeField] float speed;
+    [SerializeField] MoveMode componentToMove;
+    [SerializeField] InputMode typeOfInput;
 
     private bool canWalk = true;
     private bool isWalking = false;
 
+    Pathfinder map;
     private List<PathNode> currPath = new List<PathNode>();
     private int targetIndex;
 
-    Pathfinder map;
-
     private enum MoveMode { Transform, RigidbodyPosition, RigidbodyVelocity }
-    //private enum InputMode { FollowTransform, FollowRigidbody, ManualInput }
+    private enum InputMode { MouseClick }
     private Rigidbody2D rb;
 
+    System.Action OnFindNewPath;
+    
+    //NOTE: currently, this must be called. Eventually refactor this so it can be compiled on Awake depending on type of PathFollower
     public void Init(Pathfinder connectedMap) {
         map = connectedMap;
         rb = GetComponent<Rigidbody2D>();
+
+        OnFindNewPath += GetNewPath;
     }
 
     public void AllowMovement(bool canMove){ canWalk = canMove; }
 
-    private void Awake() {
-        if (rb == null)
-            rb = GetComponent<Rigidbody2D>();
-    }
 
     private void Update() {
 
@@ -61,13 +62,24 @@ public class PathFollower : MonoBehaviour {
             MoveInDirection(towardsNextNode);
         }
 
-        if (Input.GetMouseButtonDown(0)) {
-            CancelWalking();
-
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            currPath = map.GetPath(rb.position, mousePos);
-            isWalking = true;
+        //TEMP. As more input types are added, this will be refactored to accomodate new types
+        //Will also have to refactor to accomodate Input Manager vs. Input System
+        if (typeOfInput == InputMode.MouseClick && Input.GetMouseButtonDown(0)) {
+            OnFindNewPath?.Invoke();
         }
+    }
+
+    private void GetNewPath() {
+        CancelWalking();
+
+        switch (typeOfInput) {
+            case InputMode.MouseClick:
+                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                currPath = map.GetPath(rb.position, mousePos);
+                break;
+        }
+
+        isWalking = true;
     }
 
     //use for smoothed movement
