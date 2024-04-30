@@ -1,9 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable] public class Serializable2DArray<T> : ISerializationCallbackReceiver {
+[System.Serializable] public class Serializable2DArray<T> : ISerializationCallbackReceiver {
 
     //unserialized data for editor
     private T[,] unserialized;
@@ -13,13 +12,15 @@ using UnityEngine;
     //pseudo funcs to act like array
     public int GetLength(int dim) { return unserialized.GetLength(dim); }
     public int Length { get { return unserialized.Length; } }
+    public T[,] Array { get { return unserialized; } }
+    
 
 
     //serialized data
     [SerializeField, HideInInspector] private SerializedItem<T>[] serialized;
     [SerializeField, HideInInspector] private int length0;
     [SerializeField, HideInInspector] private int length1;
-    [Serializable] public struct SerializedItem<TItem> where TItem : T  {
+    [System.Serializable] public struct SerializedItem<TItem> where TItem : T  {
         public int index0;
         public int index1;
         public TItem item;

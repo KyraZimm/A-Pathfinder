@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grid<T> {
+[System.Serializable] public class Grid<T> {
     int width;
     int height;
     Vector2 origin;
     Vector2 cellSize;
 
-    T[,] cells;
+    Serializable2DArray<T> cells;
 
     public Grid(int width, int height, Vector2 cellSize, Vector2 origin) {
         this.width = width;
@@ -16,7 +16,7 @@ public class Grid<T> {
         this.cellSize = cellSize;
         this.origin = origin;
 
-        cells = new T[width, height];
+        cells = new Serializable2DArray<T>(new T[width, height]);
     }
 
     public int GetWidth() { return width; }
@@ -49,7 +49,7 @@ public class Grid<T> {
     public void SetValueAtCoords(int x, int y, T value) {
         if (x < 0 || x >= width || y < 0 || y >= height)
             return;
-        cells[x, y] = value;
+        cells.Array[x, y] = value;
     }
 
     public void SetValueAtWorldPos(Vector2 worldPos, T value) {
@@ -60,12 +60,12 @@ public class Grid<T> {
     public T GetValueAtCoords(int x, int y) {
         if (x < 0 || x >= width || y < 0 || y >= height)
             return default(T);
-        return cells[x, y];
+        return cells.Array[x, y];
     }
 
     public T GetValueAtWorldPos(Vector2 worldPos) {
         GetCellCoords(worldPos, out int x, out int y);
-        return cells[x, y];
+        return cells.Array[x, y];
     }
 
 }
