@@ -10,6 +10,7 @@ public class PathFollower : MonoBehaviour {
 
     private bool canWalk = true;
     private bool isWalking = false;
+    private Vector2 startPos;
 
     Pathfinder map;
     private List<PathNode> currPath = new List<PathNode>();
@@ -26,6 +27,10 @@ public class PathFollower : MonoBehaviour {
         map = connectedMap;
         rb = GetComponent<Rigidbody2D>();
 
+        //clamp starting pos to grid, save for later
+        map.Grid.GetCellCoords(transform.position, out int x, out int y, true);
+        startPos = map.Grid.GetCellWorldPos(x, y);
+
         OnFindNewPath += GetNewPath;
     }
 
@@ -36,8 +41,7 @@ public class PathFollower : MonoBehaviour {
 
         //if object is walking, but no longer allowed, stop walking
         if (!canWalk && isWalking) {
-            CancelWalking();
-            TeleportPlayerToCell(0, 0);
+            MoveToPos(startPos, true);
             return;
         }
 
@@ -49,9 +53,8 @@ public class PathFollower : MonoBehaviour {
                 return;
             }
 
-            //if player should reach next node this frame, just place them there and wait for next frame
+            //if player should reach next node this frame, update target and wait for next frame
             if (Vector2.Distance(transform.position, currPath[targetIndex].worldPos) < speed * Time.deltaTime) {
-                MoveInDirection(currPath[targetIndex].worldPos);
                 targetIndex++;
                 return;
             }
@@ -110,6 +113,12 @@ public class PathFollower : MonoBehaviour {
 
     //use for immediate placement at pos - unsmoothed
     private void MoveToPos(Vector2 pos) {
+        MoveToPos(pos, false);
+    }
+    private void MoveToPos(Vector2 pos, bool cancelWalking) {
+        if (cancelWalking)
+            CancelWalking();
+
         switch (componentToMove) {
             case MoveMode.Transform:
                 transform.position = pos;
@@ -124,12 +133,6 @@ public class PathFollower : MonoBehaviour {
         }
     }
 
-    private void TeleportPlayerToCell(int x, int y) {
-        CancelWalking();
-        Vector2 worldPos = map.Grid.GetCellWorldPos(x, y);
-        MoveToPos(worldPos);
-    }
-
     private void CancelWalking() {
         isWalking = false;
         targetIndex = 0;
@@ -137,6 +140,7 @@ public class PathFollower : MonoBehaviour {
         if (currPath != null)
             currPath.Clear();
 
+        //shouldn't be necessary, but just in case:
         if (componentToMove == MoveMode.RigidbodyVelocity)
             rb.velocity = Vector2.zero;
     }

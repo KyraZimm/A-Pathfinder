@@ -703,19 +703,6 @@ MonoBehaviour:
   mapCellSize: {x: 1, y: 1}
   mapOrigin: {x: 0, y: 0}
   mapCellPrefab: {fileID: 895053998669166996, guid: 823f9c53058ab2a4b9a4e0e7c7e05fa4, type: 3}
-  pathFollowers:
-  - {fileID: 1792521876}
---- !u!114 &1792521876 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1023291625633102313, guid: 37806319feb5383429e09843b7751e65, type: 3}
-  m_PrefabInstance: {fileID: 8796346639364856614}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6d97d5ad08b864418b95469e6a188a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &8796346639364856614
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -727,6 +714,10 @@ PrefabInstance:
     - target: {fileID: 551378417195154649, guid: 37806319feb5383429e09843b7751e65, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345452413685714293, guid: 37806319feb5383429e09843b7751e65, type: 3}
+      propertyPath: componentToMove
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2402231915396369586, guid: 37806319feb5383429e09843b7751e65, type: 3}
       propertyPath: map
