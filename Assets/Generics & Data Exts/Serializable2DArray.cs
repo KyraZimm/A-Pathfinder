@@ -35,6 +35,13 @@ using UnityEngine;
 
     //handle serialization & deserialization
     public void OnBeforeSerialize(){
+
+        //if there is no array in this class, serialize an empty array
+        if (unserialized == null) {
+            serialized = new SerializedItem<T>[0];
+            return;
+        }
+
         serialized = new SerializedItem<T>[unserialized.Length];
         length0 = unserialized.GetLength(0);
         length1 = unserialized.GetLength(1);

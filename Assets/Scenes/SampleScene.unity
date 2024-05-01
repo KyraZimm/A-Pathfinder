@@ -698,11 +698,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3bde316a6ff6e44885263541a48d59f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numMapCellsAcross: 16
-  numMapCellsHigh: 8
-  mapCellSize: {x: 1, y: 1}
-  mapOrigin: {x: 0, y: 0}
-  mapCellPrefab: {fileID: 895053998669166996, guid: 823f9c53058ab2a4b9a4e0e7c7e05fa4, type: 3}
+  width: 16
+  height: 8
+  cellSize: {x: 1, y: 1}
+  origin: {x: 0, y: 0}
+  cellPrefab: {fileID: 0}
 --- !u!1001 &8796346639364856614
 PrefabInstance:
   m_ObjectHideFlags: 0

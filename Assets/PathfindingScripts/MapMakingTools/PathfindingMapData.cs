@@ -4,5 +4,5 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Map Data", menuName = "ScriptableObjects/Map Data")]
 public class PathfindingMapData : ScriptableObject {
-   public Grid grid;
+   public Grid<SavedPathNode> grid;
 }

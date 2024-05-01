@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PathfindingMapMaker : MonoBehaviour {
     [Header("Map Size & Placement")]
-    [SerializeField] int numMapCellsAcross;
-    [SerializeField] int numMapCellsHigh;
-    [SerializeField] Vector2 mapCellSize;
-    [SerializeField] Vector2 mapOrigin;
+    [SerializeField] int width;
+    [SerializeField] int height;
+    [SerializeField] Vector2 cellSize;
+    [SerializeField] Vector2 origin;
     [Header("TEMP: Map Tile")]
-    [SerializeField] GameObject mapCellPrefab;
+    [SerializeField] GameObject cellPrefab;
 
     Pathfinder pathfinder;
     PathFollower[] pathFollowers;
@@ -24,13 +24,13 @@ public class PathfindingMapMaker : MonoBehaviour {
         EditMode = false;
         editModeLastFrame = EditMode;
 
-        pathfinder = new Pathfinder(numMapCellsAcross, numMapCellsHigh, mapCellSize, mapOrigin);
-        visualGrid = new Grid<GameObject>(numMapCellsAcross, numMapCellsHigh, mapCellSize, mapOrigin);
+        pathfinder = new Pathfinder(width, height, cellSize, origin);
+        visualGrid = new Grid<GameObject>(width, height, cellSize, origin);
 
-        for (int x = 0; x < numMapCellsAcross; x++) {
-            for (int y = 0; y < numMapCellsHigh; y++) {
-                GameObject cell = Instantiate(mapCellPrefab, pathfinder.Grid.GetCellWorldPos(x, y), Quaternion.identity);
-                cell.transform.localScale = mapCellSize;
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                GameObject cell = Instantiate(cellPrefab, pathfinder.Grid.GetCellWorldPos(x, y), Quaternion.identity);
+                cell.transform.localScale = cellSize;
 
                 visualGrid.SetValueAtCoords(x, y, cell);
             }

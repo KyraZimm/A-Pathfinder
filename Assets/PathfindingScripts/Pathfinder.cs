@@ -2,26 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathNode {
-    public int x;
-    public int y;
-    public Vector2 worldPos;
-
-    public int gCost;
-    public int hCost;
-    public int fCost { get { return gCost + hCost; } }
-
-    public PathNode previousNode;
-    public bool isWalkable = true;
-
-    public PathNode(int x, int y, Grid<PathNode> parentGrid) {
-        this.x = x;
-        this.y = y;
-        this.worldPos = parentGrid.GetCellWorldPos(x, y);
-        isWalkable = true;
-    }
-}
-
 public class Pathfinder {
 
     const int MOVE_STRAIGHT_COST = 10;
