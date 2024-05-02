@@ -1,5 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <ui:IMGUIContainer name="Grid">
+        <uie:ObjectField label="TEMP: Cell Prefab        " type="UnityEngine.GameObject, UnityEngine.CoreModule" binding-path="cellPrefab" />
         <ui:IntegerField label="Num Map Cells Across" value="1" name="height" binding-path="width" />
         <ui:IntegerField label="Num Map Cells High    " value="1" name="width" binding-path="height" />
         <ui:Vector2Field label="Cell Size" name="cellsize" binding-path="cellSize" />
@@ -7,6 +8,7 @@
     </ui:IMGUIContainer>
     <uie:ToolbarSpacer style="height: 20px; width: 348px;" />
     <ui:IMGUIContainer name="Export">
-        <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <uie:ObjectField label="Save File" type="PathfindingMapData, Assembly-CSharp" binding-path="data" name="SaveFile" />
+        <ui:Button text="Save Map Data" parse-escape-sequences="true" display-tooltip-when-elided="true" focusable="true" name="SaveMapData" enable-rich-text="true" />
     </ui:IMGUIContainer>
 </ui:UXML>

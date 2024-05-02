@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PathfindingMapMaker : MonoBehaviour {
-    [Header("Map Size & Placement")]
     [SerializeField] int width;
     [SerializeField] int height;
     [SerializeField] Vector2 cellSize;
     [SerializeField] Vector2 origin;
-    [Header("TEMP: Map Tile")]
+    [SerializeField] PathfindingMapData data;
     [SerializeField] GameObject cellPrefab;
 
     Pathfinder pathfinder;
     PathFollower[] pathFollowers;
 
-    public Grid<PathNode> MapGrid { get { return pathfinder.Grid; } }
+    private Grid<PathNode> mapGrid { get { return pathfinder.Grid; } }
     private Grid<GameObject> visualGrid;
 
     public bool EditMode { get; private set; }
     private bool editModeLastFrame;
+
+    //private const string EXPORT_FOLDER_PATH = "Assets/MapData";
 
     private void Awake() {
         EditMode = false;
@@ -65,10 +66,33 @@ public class PathfindingMapMaker : MonoBehaviour {
     }
 
     private void ToggleNodeWalkability(Vector2 worldPos) {
-        PathNode nodeToEdit = MapGrid.GetValueAtWorldPos(worldPos);
+        PathNode nodeToEdit = mapGrid.GetValueAtWorldPos(worldPos);
         nodeToEdit.isWalkable = !nodeToEdit.isWalkable;
-        MapGrid.SetValueAtWorldPos(worldPos, nodeToEdit);
+        mapGrid.SetValueAtWorldPos(worldPos, nodeToEdit);
 
         visualGrid.GetValueAtWorldPos(worldPos).transform.GetChild(0).gameObject.SetActive(nodeToEdit.isWalkable);
     }
+
+    public void SaveNewMapData() {
+
+        if (data == null) {
+            Debug.LogWarning("No save file in MapMaker. Please add one in the Inspector.");
+            return;
+        }
+
+        Grid<SavedPathNode> saveMap = new Grid<SavedPathNode>(mapGrid.GetWidth(), mapGrid.GetHeight(), mapGrid.GetCellSize(), origin);
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                SavedPathNode nodeToSave = mapGrid.GetValueAtCoords(x, y).ToSaveData();
+                saveMap.SetValueAtCoords(x, y, nodeToSave);
+            }
+        }
+
+        data.grid = saveMap;
+
+        Debug.Log($"Map saved to {data.name}!");
+    }
+
+
 }
