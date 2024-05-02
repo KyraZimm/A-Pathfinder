@@ -23,6 +23,20 @@ public class Pathfinder {
         }
     }
 
+    public Pathfinder(Grid<PathNode> grid) {
+        Grid = grid;
+    }
+    public Pathfinder(Grid<SavedPathNode> savedGrid) {
+        Grid = new Grid<PathNode>(savedGrid.GetWidth(), savedGrid.GetHeight(), savedGrid.GetCellSize(), savedGrid.GetOrigin());
+
+        for (int x = 0; x < savedGrid.GetWidth(); x++) {
+            for (int y = 0; y < savedGrid.GetHeight(); y++) {
+                PathNode node = new PathNode(savedGrid.GetValueAtCoords(x, y), Grid);
+                Grid.SetValueAtCoords(x, y, node);
+            }
+        }
+    }
+
     private PathNode GetNode(int x, int y) {
         return Grid.GetValueAtCoords(x, y);
     }

@@ -32,13 +32,20 @@ public class PathfindingMapMaker : MonoBehaviour {
         EditMode = false;
         editModeLastFrame = EditMode;
 
-        pathfinder = new Pathfinder(width, height, cellSize, origin);
-        visualGrid = new Grid<GameObject>(width, height, cellSize, origin);
+        if (data == null)
+            NewMapData(true);
 
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
+        //instantiate map from saved data
+        pathfinder = new Pathfinder(data.grid);
+
+        //TEMP: this will be replaced once I know what kind of visuals the map editor needs to render
+        //render map using temp cell prefabs
+        visualGrid = new Grid<GameObject>(data.grid.GetWidth(), data.grid.GetHeight(), data.grid.GetCellSize(), data.grid.GetOrigin());
+        for (int x = 0; x < mapGrid.GetWidth(); x++) {
+            for (int y = 0; y < mapGrid.GetHeight(); y++) {
                 GameObject cell = Instantiate(cellPrefab, pathfinder.Grid.GetCellWorldPos(x, y), Quaternion.identity);
                 cell.transform.localScale = cellSize;
+                cell.transform.GetChild(0).gameObject.SetActive(mapGrid.GetValueAtCoords(x,y).isWalkable);
 
                 visualGrid.SetValueAtCoords(x, y, cell);
             }
@@ -82,22 +89,34 @@ public class PathfindingMapMaker : MonoBehaviour {
     }
 
 
-    public void NewMapData() {
+    public void NewMapData(bool forceNewFile) {
         string savePath = EXPORT_FOLDER_PATH + "/" + newSaveFileName + ".asset";
 
         //check that save file doesn't already exist
         if (File.Exists(savePath)) {
-            Debug.LogWarning($"A file named {newSaveFileName} already exists at {savePath}. Either choose a new file name, or use the [Save Map Data] option instead.");
-            return;
+
+            //TEMP: this is p expensive, trim this later once other tasks are up to date
+            if (forceNewFile) { //if a new file needs to be made, add version numbers until a unique ID is found
+                int ID = 0;
+                while (File.Exists(savePath)) {
+                    ID++;
+                    savePath = EXPORT_FOLDER_PATH + "/" + newSaveFileName + ID.ToString() + ".asset";
+                }
+            }
+            else { //else, do not make new file
+                Debug.LogWarning($"A file named {newSaveFileName} already exists at {savePath}. Either choose a new file name, or use the [Save Map Data] option instead.");
+                return;
+            }
         }
 
         PathfindingMapData newSaveData = ScriptableObject.CreateInstance<PathfindingMapData>();
         newSaveData.grid = WriteNewSaveData();
         AssetDatabase.CreateAsset(newSaveData, savePath);
-        data = newSaveData;
 
         Debug.Log($"New save file {newSaveFileName} was created at {savePath}.");
         AssetDatabase.Refresh();
+
+        data = newSaveData;
     }
 
     public void SaveMapData() {

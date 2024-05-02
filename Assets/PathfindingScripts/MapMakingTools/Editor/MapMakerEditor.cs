@@ -24,7 +24,7 @@ public class MapMakerEditor : Editor {
 
         //new map option
         Button newSaveFileButton = root.Q<Button>("NewMapData");
-        newSaveFileButton.RegisterCallback<MouseUpEvent>((evt) => mapMaker.NewMapData());
+        newSaveFileButton.RegisterCallback<MouseUpEvent>((evt) => mapMaker.NewMapData(false));
 
         return root;
     }
