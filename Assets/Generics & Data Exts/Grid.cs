@@ -22,6 +22,7 @@ using UnityEngine;
     public int GetWidth() { return width; }
     public int GetHeight() { return height; }
     public Vector2 GetCellSize() { return cellSize; }
+    public Vector2 GetOrigin() { return origin; }
 
     public Vector2 GetCellWorldPos(int x, int y) {
         return (new Vector2(x + origin.x, y + origin.y) * cellSize) + (cellSize/2); //returns center of cell

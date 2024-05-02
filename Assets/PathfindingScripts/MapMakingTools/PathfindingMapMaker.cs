@@ -1,12 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class PathfindingMapMaker : MonoBehaviour {
     [SerializeField] int width;
     [SerializeField] int height;
     [SerializeField] Vector2 cellSize;
     [SerializeField] Vector2 origin;
+    [SerializeField] string newSaveFileName;
+
     [SerializeField] PathfindingMapData data;
     [SerializeField] GameObject cellPrefab;
 
@@ -19,7 +26,7 @@ public class PathfindingMapMaker : MonoBehaviour {
     public bool EditMode { get; private set; }
     private bool editModeLastFrame;
 
-    //private const string EXPORT_FOLDER_PATH = "Assets/MapData";
+    private const string EXPORT_FOLDER_PATH = "Assets/MapData";
 
     private void Awake() {
         EditMode = false;
@@ -70,28 +77,63 @@ public class PathfindingMapMaker : MonoBehaviour {
         nodeToEdit.isWalkable = !nodeToEdit.isWalkable;
         mapGrid.SetValueAtWorldPos(worldPos, nodeToEdit);
 
+        //TEMP: this will be replaced with a more robust system once I know what the final look of the grid needs to be
         visualGrid.GetValueAtWorldPos(worldPos).transform.GetChild(0).gameObject.SetActive(nodeToEdit.isWalkable);
     }
 
-    public void SaveNewMapData() {
 
+    public void NewMapData() {
+        string savePath = EXPORT_FOLDER_PATH + "/" + newSaveFileName + ".asset";
+
+        //check that save file doesn't already exist
+        if (File.Exists(savePath)) {
+            Debug.LogWarning($"A file named {newSaveFileName} already exists at {savePath}. Either choose a new file name, or use the [Save Map Data] option instead.");
+            return;
+        }
+
+        PathfindingMapData newSaveData = ScriptableObject.CreateInstance<PathfindingMapData>();
+        newSaveData.grid = WriteNewSaveData();
+        AssetDatabase.CreateAsset(newSaveData, savePath);
+        data = newSaveData;
+
+        Debug.Log($"New save file {newSaveFileName} was created at {savePath}.");
+        AssetDatabase.Refresh();
+    }
+
+    public void SaveMapData() {
         if (data == null) {
             Debug.LogWarning("No save file in MapMaker. Please add one in the Inspector.");
             return;
         }
 
-        Grid<SavedPathNode> saveMap = new Grid<SavedPathNode>(mapGrid.GetWidth(), mapGrid.GetHeight(), mapGrid.GetCellSize(), origin);
+        data.grid = GetCurrSaveData();
+        Debug.Log($"Map saved to {data.name}!");
+    }
 
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
+    Grid<SavedPathNode> GetCurrSaveData() {
+        Grid<SavedPathNode> currMap = new Grid<SavedPathNode>(mapGrid.GetWidth(), mapGrid.GetHeight(), mapGrid.GetCellSize(), mapGrid.GetOrigin());
+
+        for (int x = 0; x < mapGrid.GetWidth(); x++) {
+            for (int y = 0; y < mapGrid.GetHeight(); y++) {
                 SavedPathNode nodeToSave = mapGrid.GetValueAtCoords(x, y).ToSaveData();
-                saveMap.SetValueAtCoords(x, y, nodeToSave);
+                currMap.SetValueAtCoords(x, y, nodeToSave);
             }
         }
 
-        data.grid = saveMap;
+        return currMap;
+    }
 
-        Debug.Log($"Map saved to {data.name}!");
+    Grid<SavedPathNode> WriteNewSaveData() {
+        Grid<SavedPathNode> newMap = new Grid<SavedPathNode>(width, height, cellSize, origin);
+
+        for (int x = 0; x < width ; x++) {
+            for (int y = 0; y < height; y++) {
+                SavedPathNode nodeToSave = new SavedPathNode(x, y, true);
+                newMap.SetValueAtCoords(x, y, nodeToSave);
+            }
+        }
+
+        return newMap;
     }
 
 

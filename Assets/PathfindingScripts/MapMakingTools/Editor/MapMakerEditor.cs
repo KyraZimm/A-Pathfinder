@@ -18,9 +18,13 @@ public class MapMakerEditor : Editor {
         VisualElement root = new VisualElement();
         UXML.CloneTree(root);
 
+        //save map options
+        Button saveButton = root.Q<Button>("SaveMapData");
+        saveButton.RegisterCallback<MouseUpEvent>((evt) => mapMaker.SaveMapData());
 
-        Button uxmlButton = root.Q<Button>("SaveMapData");
-        uxmlButton.RegisterCallback<MouseUpEvent>((evt) => mapMaker.SaveNewMapData());
+        //new map option
+        Button newSaveFileButton = root.Q<Button>("NewMapData");
+        newSaveFileButton.RegisterCallback<MouseUpEvent>((evt) => mapMaker.NewMapData());
 
         return root;
     }
