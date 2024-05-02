@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:Label tabindex="-1" text="IMPORTANT: All values below are readonly.&#10;Use PathfindingMapMaker to edit." parse-escape-sequences="true" display-tooltip-when-elided="true" />
+    <ui:Vector2Field label="Cell Size" name="cellsize" />
+    <ui:IntegerField label="Width" value="42" name="width" readonly="true" />
+    <ui:IntegerField label="Height" value="42" name="height" readonly="true" />
+    <ui:Vector2Field label="Origin" name="origin" />
+</ui:UXML>
