@@ -703,7 +703,7 @@ MonoBehaviour:
   cellSize: {x: 1, y: 1}
   origin: {x: 0, y: 0}
   newSaveFileName: Map Data
-  saveFile: {fileID: 11400000, guid: 60a15c45d36a9984d8e5661439d1c3b5, type: 2}
+  data: {fileID: 11400000, guid: 60a15c45d36a9984d8e5661439d1c3b5, type: 2}
   cellPrefab: {fileID: 895053998669166996, guid: 823f9c53058ab2a4b9a4e0e7c7e05fa4, type: 3}
 --- !u!1001 &8796346639364856614
 PrefabInstance:
