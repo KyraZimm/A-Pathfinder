@@ -4,23 +4,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PathFollower : MonoBehaviour {
-    [SerializeField] float speed;
-    [SerializeField] MoveMode componentToMove;
-    [SerializeField] InputMode typeOfInput;
+    [SerializeField] protected float speed;
+    [SerializeField] protected MoveMode componentToMove;
+    [SerializeField] protected InputMode typeOfInput;
 
-    private bool canWalk = true;
-    private bool isWalking = false;
-    private Vector2 startPos;
+    protected bool canWalk = true;
+    protected bool isWalking = false;
+    protected Vector2 startPos;
 
-    Pathfinder map;
-    private List<PathNode> currPath = new List<PathNode>();
-    private int targetIndex;
+    protected Pathfinder map;
+    protected List<PathNode> currPath = new List<PathNode>();
+    protected int targetIndex;
 
-    private enum MoveMode { Transform, RigidbodyPosition, RigidbodyVelocity }
-    private enum InputMode { MouseClick }
-    private Rigidbody2D rb;
+    protected enum MoveMode { Transform, RigidbodyPosition, RigidbodyVelocity }
+    protected enum InputMode { MouseClick, ManualInput }
+    protected Rigidbody2D rb;
 
-    System.Action OnFindNewPath;
+    //protected System.Action<Vector2> OnFindNewPath;
     
     //NOTE: currently, this must be called. Eventually refactor this so it can be compiled on Awake depending on type of PathFollower
     public void Init(Pathfinder connectedMap) {
@@ -31,13 +31,13 @@ public class PathFollower : MonoBehaviour {
         map.Grid.GetCellCoords(transform.position, out int x, out int y, true);
         startPos = map.Grid.GetCellWorldPos(x, y);
 
-        OnFindNewPath += GetNewPath;
+        //OnFindNewPath += GetNewPath;
     }
 
     public void AllowMovement(bool canMove){ canWalk = canMove; }
 
 
-    private void Update() {
+    protected virtual void Update() {
 
         //if object is walking, but no longer allowed, stop walking
         if (!canWalk && isWalking) {
@@ -68,19 +68,21 @@ public class PathFollower : MonoBehaviour {
         //TEMP. As more input types are added, this will be refactored to accomodate new types
         //Will also have to refactor to accomodate Input Manager vs. Input System
         if (typeOfInput == InputMode.MouseClick && Input.GetMouseButtonDown(0)) {
-            OnFindNewPath?.Invoke();
+            //OnFindNewPath?.Invoke(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            GetNewPath(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         }
     }
 
-    private void GetNewPath() {
+    protected void GetNewPath(Vector2 targetPos) {
         CancelWalking();
 
-        switch (typeOfInput) {
+        currPath = map.GetPath(rb.position, targetPos);
+        /*switch (typeOfInput) {
             case InputMode.MouseClick:
                 Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 currPath = map.GetPath(rb.position, mousePos);
                 break;
-        }
+        }*/
 
         isWalking = true;
     }
@@ -112,10 +114,10 @@ public class PathFollower : MonoBehaviour {
     }
 
     //use for immediate placement at pos - unsmoothed
-    private void MoveToPos(Vector2 pos) {
+    protected void MoveToPos(Vector2 pos) {
         MoveToPos(pos, false);
     }
-    private void MoveToPos(Vector2 pos, bool cancelWalking) {
+    protected void MoveToPos(Vector2 pos, bool cancelWalking) {
         if (cancelWalking)
             CancelWalking();
 

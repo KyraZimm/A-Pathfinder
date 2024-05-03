@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2950259529316761978}
   - component: {fileID: 1776851309256756770}
   - component: {fileID: 8196467595186225006}
-  - component: {fileID: 2345452413685714293}
+  - component: {fileID: 7639449022686817075}
   m_Layer: 0
   m_Name: EXAMPLE_Enemy
   m_TagString: Untagged
@@ -113,7 +113,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &2345452413685714293
+--- !u!114 &7639449022686817075
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,9 +122,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 551378417195154649}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2184666b0ce6bcd459a28cb526f05433, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cf1570b9bf08ee49adf01946b2593b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  componentToMove: 1
+  componentToMove: 0
   typeOfInput: 0
+  patrolPath: []
+  loopPath: 0
