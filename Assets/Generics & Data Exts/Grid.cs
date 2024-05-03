@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable] public class Grid<T> {
-    int width;
-    int height;
-    Vector2 origin;
-    Vector2 cellSize;
+    [SerializeField] int width;
+    [SerializeField] int height;
+    [SerializeField] Vector2 origin;
+    [SerializeField] Vector2 cellSize;
 
-    Serializable2DArray<T> cells;
+    [SerializeField] Serializable2DArray<T> cells;
 
     public Grid(int width, int height, Vector2 cellSize, Vector2 origin) {
         this.width = width;

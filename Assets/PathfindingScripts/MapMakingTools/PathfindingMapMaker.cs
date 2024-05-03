@@ -35,19 +35,16 @@ public class PathfindingMapMaker : MonoBehaviour {
         //make sure save saveFile is available & filled
         if (saveFile == null)
             MakeNewSaveFile(true);
-
-        Grid<SavedPathNode> savedGrid = saveFile.ToGrid();
-        if (savedGrid == null || (savedGrid.GetWidth() < 1 && savedGrid.GetHeight() < 1)) {
-            saveFile.WriteData(WriteNewSaveData());
-            savedGrid = saveFile.ToGrid();
-        }
-
+        else if (saveFile.grid == null || (saveFile.grid.GetWidth() < 1 && saveFile.grid.GetHeight() < 1))
+            SaveMapData(WriteNewSaveData());
+        
         //instantiate map from saved saveFile
-        pathfinder = new Pathfinder(savedGrid);
+        pathfinder = new Pathfinder(saveFile.grid);
 
         //TEMP: this will be replaced once I know what kind of visuals the map editor needs to render
         //render map using temp cell prefabs
-        visualGrid = new Grid<GameObject>(savedGrid.GetWidth(), savedGrid.GetHeight(), savedGrid.GetCellSize(), savedGrid.GetOrigin());
+        pathfinder = new Pathfinder(saveFile.grid);
+        visualGrid = new Grid<GameObject>(saveFile.grid.GetWidth(), saveFile.grid.GetHeight(), saveFile.grid.GetCellSize(), saveFile.grid.GetOrigin());
         for (int x = 0; x < mapGrid.GetWidth(); x++) {
             for (int y = 0; y < mapGrid.GetHeight(); y++) {
                 GameObject cell = Instantiate(cellPrefab, pathfinder.Grid.GetCellWorldPos(x, y), Quaternion.identity);
@@ -117,7 +114,7 @@ public class PathfindingMapMaker : MonoBehaviour {
         }
 
         PathfindingMapData newSaveData = ScriptableObject.CreateInstance<PathfindingMapData>();
-        newSaveData.WriteData(WriteNewSaveData());
+        SaveMapData(WriteNewSaveData());
         AssetDatabase.CreateAsset(newSaveData, savePath);
 
         Debug.Log($"New save file {newSaveFileName} was created at {savePath}.");
@@ -136,7 +133,7 @@ public class PathfindingMapMaker : MonoBehaviour {
             return;
         }
 
-        saveFile.WriteData(gridToSave);
+        saveFile.grid = gridToSave;
 
         //write to disk
         EditorUtility.SetDirty(saveFile);
