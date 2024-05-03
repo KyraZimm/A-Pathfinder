@@ -20,11 +20,11 @@ public class MapMakerEditor : Editor {
 
         //save map options
         Button saveButton = root.Q<Button>("SaveMapData");
-        saveButton.RegisterCallback<MouseUpEvent>((evt) => mapMaker.SaveMapData());
+        saveButton.RegisterCallback<MouseUpEvent>((evt) => mapMaker.SaveCurrMapData());
 
         //new map option
         Button newSaveFileButton = root.Q<Button>("NewMapData");
-        newSaveFileButton.RegisterCallback<MouseUpEvent>((evt) => mapMaker.NewMapData(false));
+        newSaveFileButton.RegisterCallback<MouseUpEvent>((evt) => mapMaker.MakeNewSaveFile(false));
 
         return root;
     }

@@ -2,7 +2,7 @@
     <uie:ObjectField label="TEMP: Cell Prefab        " type="UnityEngine.GameObject, UnityEngine.CoreModule" binding-path="cellPrefab" />
     <uie:ToolbarSpacer style="height: 20px; width: 348px;" />
     <ui:IMGUIContainer name="Export">
-        <uie:ObjectField label="Save File" type="PathfindingMapData, Assembly-CSharp" binding-path="data" name="SaveFile" />
+        <uie:ObjectField label="Save File" type="PathfindingMapData, Assembly-CSharp" binding-path="saveFile" name="SaveFile" />
         <ui:Button text="Save Map Data" parse-escape-sequences="true" display-tooltip-when-elided="true" focusable="true" name="SaveMapData" enable-rich-text="true" />
     </ui:IMGUIContainer>
     <uie:ToolbarSpacer style="height: 20px; width: 348px;" />

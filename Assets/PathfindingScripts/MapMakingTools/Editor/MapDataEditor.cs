@@ -25,10 +25,11 @@ public class MapDataEditor : Editor {
         Vector2Field cellsize = root.Q<Vector2Field>("cellsize");
         Vector2Field origin = root.Q<Vector2Field>("origin");
 
-        width.value = data.grid.GetWidth();
-        height.value = data.grid.GetHeight();
-        cellsize.value = data.grid.GetCellSize();
-        origin.value = data.grid.GetOrigin();
+        Grid<SavedPathNode> savedGrid = data.ToGrid();
+        width.value = savedGrid.GetWidth();
+        height.value = savedGrid.GetHeight();
+        cellsize.value = savedGrid.GetCellSize();
+        origin.value = savedGrid.GetOrigin();
 
         return root;
     }

@@ -14,7 +14,7 @@ public class PathfindingMapMaker : MonoBehaviour {
     [SerializeField] Vector2 origin;
     [SerializeField] string newSaveFileName;
 
-    [SerializeField] PathfindingMapData data;
+    [SerializeField] PathfindingMapData saveFile;
     [SerializeField] GameObject cellPrefab;
 
     Pathfinder pathfinder;
@@ -32,18 +32,22 @@ public class PathfindingMapMaker : MonoBehaviour {
         EditMode = false;
         editModeLastFrame = EditMode;
 
-        //make sure save data is available & filled
-        if (data == null)
-            NewMapData(true);
-        else if (data.grid == null || (data.grid.GetWidth() < 1 && data.grid.GetHeight() < 1))
-            data.grid = WriteNewSaveData();
+        //make sure save saveFile is available & filled
+        if (saveFile == null)
+            MakeNewSaveFile(true);
 
-        //instantiate map from saved data
-        pathfinder = new Pathfinder(data.grid);
+        Grid<SavedPathNode> savedGrid = saveFile.ToGrid();
+        if (savedGrid == null || (savedGrid.GetWidth() < 1 && savedGrid.GetHeight() < 1)) {
+            saveFile.WriteData(WriteNewSaveData());
+            savedGrid = saveFile.ToGrid();
+        }
+
+        //instantiate map from saved saveFile
+        pathfinder = new Pathfinder(savedGrid);
 
         //TEMP: this will be replaced once I know what kind of visuals the map editor needs to render
         //render map using temp cell prefabs
-        visualGrid = new Grid<GameObject>(data.grid.GetWidth(), data.grid.GetHeight(), data.grid.GetCellSize(), data.grid.GetOrigin());
+        visualGrid = new Grid<GameObject>(savedGrid.GetWidth(), savedGrid.GetHeight(), savedGrid.GetCellSize(), savedGrid.GetOrigin());
         for (int x = 0; x < mapGrid.GetWidth(); x++) {
             for (int y = 0; y < mapGrid.GetHeight(); y++) {
                 GameObject cell = Instantiate(cellPrefab, pathfinder.Grid.GetCellWorldPos(x, y), Quaternion.identity);
@@ -92,7 +96,7 @@ public class PathfindingMapMaker : MonoBehaviour {
     }
 
 
-    public void NewMapData(bool forceNewFile) {
+    public void MakeNewSaveFile(bool forceNewFile) {
         string savePath = EXPORT_FOLDER_PATH + "/" + newSaveFileName + ".asset";
 
         //check that save file doesn't already exist
@@ -113,23 +117,32 @@ public class PathfindingMapMaker : MonoBehaviour {
         }
 
         PathfindingMapData newSaveData = ScriptableObject.CreateInstance<PathfindingMapData>();
-        newSaveData.grid = WriteNewSaveData();
+        newSaveData.WriteData(WriteNewSaveData());
         AssetDatabase.CreateAsset(newSaveData, savePath);
 
         Debug.Log($"New save file {newSaveFileName} was created at {savePath}.");
         AssetDatabase.Refresh();
 
-        data = newSaveData;
+        saveFile = newSaveData;
     }
 
-    public void SaveMapData() {
-        if (data == null) {
+    public void SaveCurrMapData() {
+        SaveMapData(GetCurrSaveData());
+    }
+
+    public void SaveMapData(Grid<SavedPathNode> gridToSave) {
+        if (saveFile == null) {
             Debug.LogWarning("No save file in MapMaker. Please add one in the Inspector.");
             return;
         }
 
-        data.grid = GetCurrSaveData();
-        Debug.Log($"Map saved to {data.name}!");
+        saveFile.WriteData(gridToSave);
+
+        EditorUtility.SetDirty(saveFile);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
+        Debug.Log($"Map saved to {saveFile.name}!");
     }
 
     Grid<SavedPathNode> GetCurrSaveData() {
