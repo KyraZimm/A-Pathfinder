@@ -138,6 +138,7 @@ public class PathfindingMapMaker : MonoBehaviour {
 
         saveFile.WriteData(gridToSave);
 
+        //write to disk
         EditorUtility.SetDirty(saveFile);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();

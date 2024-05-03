@@ -57,7 +57,6 @@ public class Pathfinder {
             return null;
         }
             
-
         openNodes = new List<PathNode>() { startNode };
         closedNodes = new List<PathNode>();
 
@@ -72,6 +71,18 @@ public class Pathfinder {
 
         startNode.gCost = 0;
         startNode.hCost = DistanceCost(startNode, endNode);
+
+        //if chosen destination is not walkable, find the nearest walkable node
+        if (!endNode.isWalkable) {
+            List<PathNode> neighbors = GetNeighborNodes(endNode);
+            PathNode candidate = GetLowestFCostNode(neighbors);
+
+            while (!candidate.isWalkable) {
+                neighbors = GetNeighborNodes(candidate);
+                candidate = GetLowestFCostNode(neighbors);
+            }
+            endNode = candidate;
+        }
 
         while (openNodes.Count > 0) {
             PathNode currNode = GetLowestFCostNode(openNodes);
