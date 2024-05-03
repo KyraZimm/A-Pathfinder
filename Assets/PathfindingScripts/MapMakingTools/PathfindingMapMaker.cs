@@ -32,8 +32,11 @@ public class PathfindingMapMaker : MonoBehaviour {
         EditMode = false;
         editModeLastFrame = EditMode;
 
+        //make sure save data is available & filled
         if (data == null)
             NewMapData(true);
+        else if (data.grid == null || (data.grid.GetWidth() < 1 && data.grid.GetHeight() < 1))
+            data.grid = WriteNewSaveData();
 
         //instantiate map from saved data
         pathfinder = new Pathfinder(data.grid);
