@@ -127,6 +127,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   componentToMove: 0
-  typeOfInput: 0
-  patrolPath: []
-  loopPath: 0
+  typeOfInput: 1
+  patrolPath:
+  - {x: 7.5, y: 5.5}
+  - {x: 13.5, y: 2.5}
+  loopPath: 1

@@ -72,283 +72,283 @@ MonoBehaviour:
         item:
           x: 1
           y: 0
+          isWalkable: 1
+      - index0: 1
+        index1: 1
+        item:
+          x: 1
+          y: 1
+          isWalkable: 1
+      - index0: 1
+        index1: 2
+        item:
+          x: 1
+          y: 2
+          isWalkable: 1
+      - index0: 1
+        index1: 3
+        item:
+          x: 1
+          y: 3
+          isWalkable: 1
+      - index0: 1
+        index1: 4
+        item:
+          x: 1
+          y: 4
+          isWalkable: 1
+      - index0: 1
+        index1: 5
+        item:
+          x: 1
+          y: 5
+          isWalkable: 1
+      - index0: 1
+        index1: 6
+        item:
+          x: 1
+          y: 6
+          isWalkable: 1
+      - index0: 1
+        index1: 7
+        item:
+          x: 1
+          y: 7
+          isWalkable: 1
+      - index0: 2
+        index1: 0
+        item:
+          x: 2
+          y: 0
+          isWalkable: 1
+      - index0: 2
+        index1: 1
+        item:
+          x: 2
+          y: 1
+          isWalkable: 1
+      - index0: 2
+        index1: 2
+        item:
+          x: 2
+          y: 2
+          isWalkable: 1
+      - index0: 2
+        index1: 3
+        item:
+          x: 2
+          y: 3
+          isWalkable: 1
+      - index0: 2
+        index1: 4
+        item:
+          x: 2
+          y: 4
+          isWalkable: 1
+      - index0: 2
+        index1: 5
+        item:
+          x: 2
+          y: 5
+          isWalkable: 1
+      - index0: 2
+        index1: 6
+        item:
+          x: 2
+          y: 6
+          isWalkable: 1
+      - index0: 2
+        index1: 7
+        item:
+          x: 2
+          y: 7
+          isWalkable: 1
+      - index0: 3
+        index1: 0
+        item:
+          x: 3
+          y: 0
+          isWalkable: 1
+      - index0: 3
+        index1: 1
+        item:
+          x: 3
+          y: 1
+          isWalkable: 1
+      - index0: 3
+        index1: 2
+        item:
+          x: 3
+          y: 2
+          isWalkable: 1
+      - index0: 3
+        index1: 3
+        item:
+          x: 3
+          y: 3
+          isWalkable: 1
+      - index0: 3
+        index1: 4
+        item:
+          x: 3
+          y: 4
+          isWalkable: 1
+      - index0: 3
+        index1: 5
+        item:
+          x: 3
+          y: 5
+          isWalkable: 1
+      - index0: 3
+        index1: 6
+        item:
+          x: 3
+          y: 6
+          isWalkable: 1
+      - index0: 3
+        index1: 7
+        item:
+          x: 3
+          y: 7
+          isWalkable: 1
+      - index0: 4
+        index1: 0
+        item:
+          x: 4
+          y: 0
+          isWalkable: 1
+      - index0: 4
+        index1: 1
+        item:
+          x: 4
+          y: 1
+          isWalkable: 1
+      - index0: 4
+        index1: 2
+        item:
+          x: 4
+          y: 2
+          isWalkable: 1
+      - index0: 4
+        index1: 3
+        item:
+          x: 4
+          y: 3
+          isWalkable: 1
+      - index0: 4
+        index1: 4
+        item:
+          x: 4
+          y: 4
+          isWalkable: 1
+      - index0: 4
+        index1: 5
+        item:
+          x: 4
+          y: 5
+          isWalkable: 1
+      - index0: 4
+        index1: 6
+        item:
+          x: 4
+          y: 6
+          isWalkable: 1
+      - index0: 4
+        index1: 7
+        item:
+          x: 4
+          y: 7
+          isWalkable: 1
+      - index0: 5
+        index1: 0
+        item:
+          x: 5
+          y: 0
+          isWalkable: 1
+      - index0: 5
+        index1: 1
+        item:
+          x: 5
+          y: 1
+          isWalkable: 1
+      - index0: 5
+        index1: 2
+        item:
+          x: 5
+          y: 2
+          isWalkable: 1
+      - index0: 5
+        index1: 3
+        item:
+          x: 5
+          y: 3
+          isWalkable: 1
+      - index0: 5
+        index1: 4
+        item:
+          x: 5
+          y: 4
+          isWalkable: 1
+      - index0: 5
+        index1: 5
+        item:
+          x: 5
+          y: 5
+          isWalkable: 1
+      - index0: 5
+        index1: 6
+        item:
+          x: 5
+          y: 6
+          isWalkable: 1
+      - index0: 5
+        index1: 7
+        item:
+          x: 5
+          y: 7
+          isWalkable: 1
+      - index0: 6
+        index1: 0
+        item:
+          x: 6
+          y: 0
+          isWalkable: 1
+      - index0: 6
+        index1: 1
+        item:
+          x: 6
+          y: 1
           isWalkable: 0
-      - index0: 1
-        index1: 1
-        item:
-          x: 1
-          y: 1
-          isWalkable: 0
-      - index0: 1
+      - index0: 6
         index1: 2
         item:
-          x: 1
+          x: 6
           y: 2
           isWalkable: 0
-      - index0: 1
+      - index0: 6
         index1: 3
         item:
-          x: 1
+          x: 6
           y: 3
           isWalkable: 0
-      - index0: 1
+      - index0: 6
         index1: 4
         item:
-          x: 1
+          x: 6
           y: 4
           isWalkable: 0
-      - index0: 1
-        index1: 5
-        item:
-          x: 1
-          y: 5
-          isWalkable: 1
-      - index0: 1
-        index1: 6
-        item:
-          x: 1
-          y: 6
-          isWalkable: 1
-      - index0: 1
-        index1: 7
-        item:
-          x: 1
-          y: 7
-          isWalkable: 1
-      - index0: 2
-        index1: 0
-        item:
-          x: 2
-          y: 0
-          isWalkable: 1
-      - index0: 2
-        index1: 1
-        item:
-          x: 2
-          y: 1
-          isWalkable: 1
-      - index0: 2
-        index1: 2
-        item:
-          x: 2
-          y: 2
-          isWalkable: 1
-      - index0: 2
-        index1: 3
-        item:
-          x: 2
-          y: 3
-          isWalkable: 1
-      - index0: 2
-        index1: 4
-        item:
-          x: 2
-          y: 4
-          isWalkable: 1
-      - index0: 2
-        index1: 5
-        item:
-          x: 2
-          y: 5
-          isWalkable: 1
-      - index0: 2
-        index1: 6
-        item:
-          x: 2
-          y: 6
-          isWalkable: 1
-      - index0: 2
-        index1: 7
-        item:
-          x: 2
-          y: 7
-          isWalkable: 1
-      - index0: 3
-        index1: 0
-        item:
-          x: 3
-          y: 0
-          isWalkable: 1
-      - index0: 3
-        index1: 1
-        item:
-          x: 3
-          y: 1
-          isWalkable: 1
-      - index0: 3
-        index1: 2
-        item:
-          x: 3
-          y: 2
-          isWalkable: 1
-      - index0: 3
-        index1: 3
-        item:
-          x: 3
-          y: 3
-          isWalkable: 1
-      - index0: 3
-        index1: 4
-        item:
-          x: 3
-          y: 4
-          isWalkable: 1
-      - index0: 3
-        index1: 5
-        item:
-          x: 3
-          y: 5
-          isWalkable: 1
-      - index0: 3
-        index1: 6
-        item:
-          x: 3
-          y: 6
-          isWalkable: 1
-      - index0: 3
-        index1: 7
-        item:
-          x: 3
-          y: 7
-          isWalkable: 1
-      - index0: 4
-        index1: 0
-        item:
-          x: 4
-          y: 0
-          isWalkable: 1
-      - index0: 4
-        index1: 1
-        item:
-          x: 4
-          y: 1
-          isWalkable: 1
-      - index0: 4
-        index1: 2
-        item:
-          x: 4
-          y: 2
-          isWalkable: 1
-      - index0: 4
-        index1: 3
-        item:
-          x: 4
-          y: 3
-          isWalkable: 1
-      - index0: 4
-        index1: 4
-        item:
-          x: 4
-          y: 4
-          isWalkable: 1
-      - index0: 4
-        index1: 5
-        item:
-          x: 4
-          y: 5
-          isWalkable: 1
-      - index0: 4
-        index1: 6
-        item:
-          x: 4
-          y: 6
-          isWalkable: 1
-      - index0: 4
-        index1: 7
-        item:
-          x: 4
-          y: 7
-          isWalkable: 1
-      - index0: 5
-        index1: 0
-        item:
-          x: 5
-          y: 0
-          isWalkable: 1
-      - index0: 5
-        index1: 1
-        item:
-          x: 5
-          y: 1
-          isWalkable: 1
-      - index0: 5
-        index1: 2
-        item:
-          x: 5
-          y: 2
-          isWalkable: 1
-      - index0: 5
-        index1: 3
-        item:
-          x: 5
-          y: 3
-          isWalkable: 1
-      - index0: 5
-        index1: 4
-        item:
-          x: 5
-          y: 4
-          isWalkable: 1
-      - index0: 5
-        index1: 5
-        item:
-          x: 5
-          y: 5
-          isWalkable: 1
-      - index0: 5
-        index1: 6
-        item:
-          x: 5
-          y: 6
-          isWalkable: 1
-      - index0: 5
-        index1: 7
-        item:
-          x: 5
-          y: 7
-          isWalkable: 1
-      - index0: 6
-        index1: 0
-        item:
-          x: 6
-          y: 0
-          isWalkable: 1
-      - index0: 6
-        index1: 1
-        item:
-          x: 6
-          y: 1
-          isWalkable: 1
-      - index0: 6
-        index1: 2
-        item:
-          x: 6
-          y: 2
-          isWalkable: 1
-      - index0: 6
-        index1: 3
-        item:
-          x: 6
-          y: 3
-          isWalkable: 1
-      - index0: 6
-        index1: 4
-        item:
-          x: 6
-          y: 4
-          isWalkable: 1
       - index0: 6
         index1: 5
         item:
           x: 6
           y: 5
-          isWalkable: 1
+          isWalkable: 0
       - index0: 6
         index1: 6
         item:
           x: 6
           y: 6
-          isWalkable: 1
+          isWalkable: 0
       - index0: 6
         index1: 7
         item:
@@ -366,7 +366,7 @@ MonoBehaviour:
         item:
           x: 7
           y: 1
-          isWalkable: 1
+          isWalkable: 0
       - index0: 7
         index1: 2
         item:
@@ -396,7 +396,7 @@ MonoBehaviour:
         item:
           x: 7
           y: 6
-          isWalkable: 1
+          isWalkable: 0
       - index0: 7
         index1: 7
         item:
@@ -414,7 +414,7 @@ MonoBehaviour:
         item:
           x: 8
           y: 1
-          isWalkable: 1
+          isWalkable: 0
       - index0: 8
         index1: 2
         item:
@@ -444,7 +444,7 @@ MonoBehaviour:
         item:
           x: 8
           y: 6
-          isWalkable: 1
+          isWalkable: 0
       - index0: 8
         index1: 7
         item:
@@ -474,13 +474,13 @@ MonoBehaviour:
         item:
           x: 9
           y: 3
-          isWalkable: 1
+          isWalkable: 0
       - index0: 9
         index1: 4
         item:
           x: 9
           y: 4
-          isWalkable: 1
+          isWalkable: 0
       - index0: 9
         index1: 5
         item:
@@ -492,7 +492,7 @@ MonoBehaviour:
         item:
           x: 9
           y: 6
-          isWalkable: 1
+          isWalkable: 0
       - index0: 9
         index1: 7
         item:
@@ -522,13 +522,13 @@ MonoBehaviour:
         item:
           x: 10
           y: 3
-          isWalkable: 1
+          isWalkable: 0
       - index0: 10
         index1: 4
         item:
           x: 10
           y: 4
-          isWalkable: 1
+          isWalkable: 0
       - index0: 10
         index1: 5
         item:
@@ -540,7 +540,7 @@ MonoBehaviour:
         item:
           x: 10
           y: 6
-          isWalkable: 1
+          isWalkable: 0
       - index0: 10
         index1: 7
         item:
@@ -570,13 +570,13 @@ MonoBehaviour:
         item:
           x: 11
           y: 3
-          isWalkable: 1
+          isWalkable: 0
       - index0: 11
         index1: 4
         item:
           x: 11
           y: 4
-          isWalkable: 1
+          isWalkable: 0
       - index0: 11
         index1: 5
         item:
@@ -588,7 +588,7 @@ MonoBehaviour:
         item:
           x: 11
           y: 6
-          isWalkable: 1
+          isWalkable: 0
       - index0: 11
         index1: 7
         item:
@@ -606,7 +606,7 @@ MonoBehaviour:
         item:
           x: 12
           y: 1
-          isWalkable: 1
+          isWalkable: 0
       - index0: 12
         index1: 2
         item:
@@ -636,7 +636,7 @@ MonoBehaviour:
         item:
           x: 12
           y: 6
-          isWalkable: 1
+          isWalkable: 0
       - index0: 12
         index1: 7
         item:
@@ -654,7 +654,7 @@ MonoBehaviour:
         item:
           x: 13
           y: 1
-          isWalkable: 1
+          isWalkable: 0
       - index0: 13
         index1: 2
         item:
@@ -684,7 +684,7 @@ MonoBehaviour:
         item:
           x: 13
           y: 6
-          isWalkable: 1
+          isWalkable: 0
       - index0: 13
         index1: 7
         item:
@@ -702,37 +702,37 @@ MonoBehaviour:
         item:
           x: 14
           y: 1
-          isWalkable: 1
+          isWalkable: 0
       - index0: 14
         index1: 2
         item:
           x: 14
           y: 2
-          isWalkable: 1
+          isWalkable: 0
       - index0: 14
         index1: 3
         item:
           x: 14
           y: 3
-          isWalkable: 1
+          isWalkable: 0
       - index0: 14
         index1: 4
         item:
           x: 14
           y: 4
-          isWalkable: 1
+          isWalkable: 0
       - index0: 14
         index1: 5
         item:
           x: 14
           y: 5
-          isWalkable: 1
+          isWalkable: 0
       - index0: 14
         index1: 6
         item:
           x: 14
           y: 6
-          isWalkable: 1
+          isWalkable: 0
       - index0: 14
         index1: 7
         item:
