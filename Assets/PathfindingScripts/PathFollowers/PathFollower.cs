@@ -20,7 +20,7 @@ public class PathFollower : MonoBehaviour {
     protected enum InputMode { MouseClick, ManualInput }
     protected Rigidbody2D rb;
 
-    //protected System.Action<Vector2> OnFindNewPath;
+    protected Queue<Vector2> queuedPositions = new Queue<Vector2>();
     
     //NOTE: currently, this must be called. Eventually refactor this so it can be compiled on Awake depending on type of PathFollower
     public void Init(Pathfinder connectedMap) {
@@ -30,11 +30,13 @@ public class PathFollower : MonoBehaviour {
         //clamp starting pos to grid, save for later
         map.Grid.GetCellCoords(transform.position, out int x, out int y, true);
         startPos = map.Grid.GetCellWorldPos(x, y);
+        MoveToPos(startPos);
 
         //OnFindNewPath += GetNewPath;
     }
 
     public void AllowMovement(bool canMove){ canWalk = canMove; }
+    public void QueueFutureDestination(Vector2 destToQueue) { queuedPositions.Enqueue(destToQueue); }
 
 
     protected virtual void Update() {
@@ -45,15 +47,24 @@ public class PathFollower : MonoBehaviour {
             return;
         }
 
+        //if object should not be walking, skip update
+        if (!canWalk)
+            return;
+
+        //if object has a queued destination, start walking there
+        if (!isWalking && queuedPositions.Count > 0)
+            GetNewPath(queuedPositions.Dequeue());
+        
+
         if (isWalking && currPath != null) {
 
-            //if player is at end of path, finish walking
+            //if object is at end of path, finish walking
             if (targetIndex == currPath.Count) {
                 CancelWalking();
                 return;
             }
 
-            //if player should reach next node this frame, update target and wait for next frame
+            //if object should reach next node this frame, update target and wait for next frame
             if (Vector2.Distance(transform.position, currPath[targetIndex].worldPos) < speed * Time.deltaTime) {
                 targetIndex++;
                 return;
@@ -76,14 +87,7 @@ public class PathFollower : MonoBehaviour {
     protected void GetNewPath(Vector2 targetPos) {
         CancelWalking();
 
-        currPath = map.GetPath(rb.position, targetPos);
-        /*switch (typeOfInput) {
-            case InputMode.MouseClick:
-                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                currPath = map.GetPath(rb.position, mousePos);
-                break;
-        }*/
-
+        currPath = map.GetPath(transform.position, targetPos);
         isWalking = true;
     }
 
@@ -146,4 +150,6 @@ public class PathFollower : MonoBehaviour {
         if (componentToMove == MoveMode.RigidbodyVelocity)
             rb.velocity = Vector2.zero;
     }
+
+    private void ClearPositionQueue(){ queuedPositions.Clear(); }
 }
