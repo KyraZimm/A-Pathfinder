@@ -1,7 +1,13 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <uie:ObjectField label="Save File" type="PathfindingMapData, Assembly-CSharp" name="savefile" style="border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px;" />
-    <ui:VisualElement style="flex-grow: 1; border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px;">
+    <uie:Toolbar>
+        <uie:ToolbarButton text="Edit Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="edit" />
+        <uie:ToolbarButton text="Generate New Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="newmap" enable-rich-text="true" />
+    </uie:Toolbar>
+    <ui:IMGUIContainer name="editmappanel" style="display: flex; visibility: visible;">
+        <uie:ObjectField label="Save File" type="PathfindingMapData, Assembly-CSharp" name="savefile" style="border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px;" />
         <ui:Button text="Save Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="savemap" />
+    </ui:IMGUIContainer>
+    <ui:IMGUIContainer name="newmappanel">
         <ui:Button text="Create New Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="createnewmap" />
-    </ui:VisualElement>
+    </ui:IMGUIContainer>
 </ui:UXML>
