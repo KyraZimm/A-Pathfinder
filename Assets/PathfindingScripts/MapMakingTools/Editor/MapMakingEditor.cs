@@ -211,7 +211,7 @@ public class MapMakingEditor : EditorWindow {
 
     private void ProjectGrid(SceneView sceneView) {
         Vector2 cellSize = file.grid.GetCellSize();
-        Vector2 offset = new Vector2(-file.grid.GetCellSize().x, -file.grid.GetCellSize().y);
+        Vector2 offset = new Vector2(-cellSize.x/2, -cellSize.y/2);
         for (int x = 0; x < file.grid.GetWidth(); x++) {
             for (int y = 0; y < file.grid.GetHeight(); y++) {
                 Vector2 rectOrigin = file.grid.GetCellWorldPos(x, y) + offset; //get top-left corner of node
