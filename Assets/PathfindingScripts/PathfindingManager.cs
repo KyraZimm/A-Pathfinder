@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
 public class PathfindingManager : MonoBehaviour {
     private static PathfindingManager _instance;
@@ -13,6 +14,8 @@ public class PathfindingManager : MonoBehaviour {
             return _instance;
         }
     }
+
+    public enum MapLoadingBehaviour { LoadPresavedMapData, CreateMapOnStart }
 
     [SerializeField] private MapAssignment[] mapAssignments;
     [System.Serializable] private struct MapAssignment {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using Pathfinding;
 
 public class PathfindingSceneTester : MonoBehaviour
 {
