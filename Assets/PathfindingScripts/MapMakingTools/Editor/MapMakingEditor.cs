@@ -237,7 +237,8 @@ public class MapMakingEditor : EditorWindow {
         //control edit state
         if (editing) {
             Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
-            SavedPathNode node = file.grid.GetValueAtWorldPos(ray.origin);
+            Vector2 pos = (Vector2)ray.origin + file.grid.GetCellSize() / 2;
+            SavedPathNode node = file.grid.GetValueAtWorldPos(pos);
 
             if ((lastEditedX != node.x) || (lastEditedY != node.y)) {
                 node.isWalkable = !node.isWalkable;

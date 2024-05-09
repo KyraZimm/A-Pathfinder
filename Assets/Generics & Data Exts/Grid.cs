@@ -32,11 +32,14 @@ using UnityEngine;
         GetCellCoords(worldPos, out x, out y, false);
     }
     public void GetCellCoords(Vector2 worldPos, out int x, out int y, bool alwaysClampToGrid) {
-        float fx = ((worldPos.x - origin.x) / cellSize.x) + (cellSize.x / 2);
+        /*float fx = ((worldPos.x - origin.x) / cellSize.x) + (cellSize.x / 2);
         float fy = ((worldPos.y - origin.y) / cellSize.y) + (cellSize.y / 2);
 
         x = Mathf.FloorToInt(fx);
-        y = Mathf.FloorToInt(fy);
+        y = Mathf.FloorToInt(fy);*/
+
+        x = Mathf.FloorToInt((worldPos.x - origin.x) / cellSize.x);
+        y = Mathf.FloorToInt((worldPos.y - origin.y) / cellSize.y);
 
         if (x < 0 || x >= width || y < 0 || y >= height) {
             if (alwaysClampToGrid) {
