@@ -32,8 +32,11 @@ using UnityEngine;
         GetCellCoords(worldPos, out x, out y, false);
     }
     public void GetCellCoords(Vector2 worldPos, out int x, out int y, bool alwaysClampToGrid) {
-        x = Mathf.FloorToInt((worldPos.x - origin.x)/ cellSize.x);
-        y = Mathf.FloorToInt((worldPos.y - origin.y)/ cellSize.y);
+        float fx = ((worldPos.x - origin.x) / cellSize.x) + (cellSize.x / 2);
+        float fy = ((worldPos.y - origin.y) / cellSize.y) + (cellSize.y / 2);
+
+        x = Mathf.FloorToInt(fx);
+        y = Mathf.FloorToInt(fy);
 
         if (x < 0 || x >= width || y < 0 || y >= height) {
             if (alwaysClampToGrid) {
@@ -44,7 +47,6 @@ using UnityEngine;
                 Debug.LogWarning($"The world position ({worldPos}) passed to GetCellCoords was outside the bounds of the grid. Was this intentional?");
             }
         }
-            
     }
 
     public void SetValueAtCoords(int x, int y, T value) {
