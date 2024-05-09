@@ -24,25 +24,33 @@ public class MapMakingEditor : EditorWindow {
     //ui controls
     private Button saveButton;
     private Button newSaveFileButton;
-    
 
+    //visualization
+    /*int width;
+    int height;
+    Vector2 cellSize;
+    Vector2 origin;*/
+    
     [MenuItem("Pathfinder Tools/Map Maker")] public static void ShowEditor() {
         EditorWindow wnd = GetWindow<MapMakingEditor>();
         wnd.titleContent = new GUIContent("Map Maker");
     }
 
+    #region Layout Updates & Setup
     public void CreateGUI() {
         testUXML.CloneTree(rootVisualElement);
 
-        //set up layout controls
+        //ref different panels
         editMapPanel = rootVisualElement.Q<IMGUIContainer>("editmappanel");
         newMapPanel = rootVisualElement.Q<IMGUIContainer>("newmappanel");
 
+        //set up toolbar buttons for panel selection
         ToolbarButton editMap = rootVisualElement.Q<ToolbarButton>("edit");
         ToolbarButton newMap = rootVisualElement.Q<ToolbarButton>("newmap");
         editMap.clicked += DisplayEditPanel;
         newMap.clicked += DisplayNewMapPanel;
 
+        //button funcs
         saveButton = rootVisualElement.Q<Button>("savemap");
         //saveButton.RegisterCallback<MouseUpEvent>((evt) => mapMaker.SaveCurrMapData());
         
@@ -62,6 +70,11 @@ public class MapMakingEditor : EditorWindow {
         PathfindingMapData currFile = (PathfindingMapData)saveFileField.value;
         SetNewSaveFile(currFile);
 
+        //set up toggle
+        Toggle showGridToggle = editMapPanel.Q<Toggle>("showgrid");
+        showGridToggle.RegisterValueChangedCallback(OnShowMapToggle);
+
+        //load edit panel as initial view
         DisplayEditPanel();
     }
 
@@ -74,6 +87,8 @@ public class MapMakingEditor : EditorWindow {
         editMapPanel.style.display = DisplayStyle.None;
         newMapPanel.style.display = DisplayStyle.Flex;
     }
+    #endregion
+
 
     #region File Handling
     private void OnSaveFileChangedEvent(ChangeEvent<UnityEngine.Object> evt) {
@@ -131,4 +146,38 @@ public class MapMakingEditor : EditorWindow {
     #endregion
 
 
+    #region Visualization In Scene
+    private void OnShowMapToggle(ChangeEvent<bool> evt) {
+        if (evt.newValue) {
+            SceneView.duringSceneGui += ProjectGrid;
+            ProjectGrid(SceneView.currentDrawingSceneView);
+        }
+        else {
+            SceneView.duringSceneGui -= ProjectGrid;
+        }
+    }
+    private void ProjectGrid(SceneView sceneView) {
+        if (file == null)
+            return;
+
+        float trueWidth = file.grid.GetWidth() * file.grid.GetCellSize().x;
+        float trueHeight = file.grid.GetHeight() * file.grid.GetCellSize().y;
+        Vector2 offset = file.grid.GetCellSize() / 2;
+
+        Vector2 pos = Vector2.zero;
+        for (int x = 0; x < file.grid.GetWidth(); x++) {
+            pos = file.grid.GetCellWorldPos(x, 0) - offset;
+            Handles.DrawLine(pos, pos+(Vector2.up*trueHeight));
+        }
+        pos.x += offset.x * 2;
+        Handles.DrawLine(pos, pos + (Vector2.up * trueHeight));
+
+        for (int y = 0; y < file.grid.GetHeight(); y++) {
+            pos = file.grid.GetCellWorldPos(0, y) - offset;
+            Handles.DrawLine(pos, pos + (Vector2.right * trueWidth));
+        }
+        pos.y += offset.y * 2;
+        Handles.DrawLine(pos, pos + (Vector2.right * trueWidth));
+    }
+    #endregion
 }

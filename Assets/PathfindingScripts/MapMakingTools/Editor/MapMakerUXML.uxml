@@ -4,7 +4,8 @@
         <uie:ToolbarButton text="Edit Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="edit" />
         <uie:ToolbarButton text="Generate New Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="newmap" enable-rich-text="true" />
     </uie:Toolbar>
-    <ui:IMGUIContainer name="editmappanel" style="display: none; visibility: visible;">
+    <ui:IMGUIContainer name="editmappanel" style="display: flex; visibility: visible;">
+        <ui:Toggle label="Toggle" name="showgrid" text="Show Map In Scene" style="display: flex;" />
         <ui:Button text="Save Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="savemap" />
     </ui:IMGUIContainer>
     <ui:IMGUIContainer name="newmappanel" style="display: flex; border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px;">
@@ -13,6 +14,6 @@
         <ui:Vector2Field label="Cell Size" binding-path="testInt" name="cellsize" />
         <ui:Vector2Field label="Origin" name="origin" />
         <ui:TextField picking-mode="Ignore" label="File Name" value="New Map File" name="filename" />
-        <ui:Button text="Create New Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="createnewmap" />
+        <ui:Button text="Create New Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="createnewmap" style="border-top-width: 10px;" />
     </ui:IMGUIContainer>
 </ui:UXML>
