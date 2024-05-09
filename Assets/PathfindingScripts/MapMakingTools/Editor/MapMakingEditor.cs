@@ -26,10 +26,7 @@ public class MapMakingEditor : EditorWindow {
     private Button newSaveFileButton;
 
     //visualization
-    /*int width;
-    int height;
-    Vector2 cellSize;
-    Vector2 origin;*/
+    
     
     [MenuItem("Pathfinder Tools/Map Maker")] public static void ShowEditor() {
         EditorWindow wnd = GetWindow<MapMakingEditor>();
@@ -160,24 +157,17 @@ public class MapMakingEditor : EditorWindow {
         if (file == null)
             return;
 
-        float trueWidth = file.grid.GetWidth() * file.grid.GetCellSize().x;
-        float trueHeight = file.grid.GetHeight() * file.grid.GetCellSize().y;
-        Vector2 offset = file.grid.GetCellSize() / 2;
-
-        Vector2 pos = Vector2.zero;
+        Vector2 cellSize = file.grid.GetCellSize();
+        Vector2 offset = new Vector2(-file.grid.GetCellSize().x, -file.grid.GetCellSize().y);
         for (int x = 0; x < file.grid.GetWidth(); x++) {
-            pos = file.grid.GetCellWorldPos(x, 0) - offset;
-            Handles.DrawLine(pos, pos+(Vector2.up*trueHeight));
-        }
-        pos.x += offset.x * 2;
-        Handles.DrawLine(pos, pos + (Vector2.up * trueHeight));
+            for (int y = 0; y < file.grid.GetHeight(); y++) {
+                Vector2 rectOrigin = file.grid.GetCellWorldPos(x, y) + offset; //get top-left corner of node
+                Rect rect = new Rect(rectOrigin.x, rectOrigin.y, cellSize.x, cellSize.y);
 
-        for (int y = 0; y < file.grid.GetHeight(); y++) {
-            pos = file.grid.GetCellWorldPos(0, y) - offset;
-            Handles.DrawLine(pos, pos + (Vector2.right * trueWidth));
+                Color faceColor = file.grid.GetValueAtCoords(x, y).isWalkable ? Color.clear : Color.white;
+                Handles.DrawSolidRectangleWithOutline(rect, faceColor, Color.white);
+            }
         }
-        pos.y += offset.y * 2;
-        Handles.DrawLine(pos, pos + (Vector2.right * trueWidth));
     }
     #endregion
 }
