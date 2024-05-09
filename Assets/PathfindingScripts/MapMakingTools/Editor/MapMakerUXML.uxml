@@ -7,7 +7,6 @@
     <ui:IMGUIContainer name="editmappanel" style="display: flex; visibility: visible;">
         <ui:Toggle label="Toggle" name="showgrid" text="Show Map In Scene" style="display: flex;" />
         <ui:Button text="Edit Mode" parse-escape-sequences="true" display-tooltip-when-elided="true" name="editmap" />
-        <ui:Button text="Save Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="savemap" style="border-top-width: 10px;" />
     </ui:IMGUIContainer>
     <ui:IMGUIContainer name="newmappanel" style="display: flex; border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px;">
         <ui:IntegerField label="Width" value="1" name="width" />
