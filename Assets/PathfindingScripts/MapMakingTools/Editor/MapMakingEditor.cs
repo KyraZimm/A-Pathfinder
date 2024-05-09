@@ -24,9 +24,14 @@ public class MapMakingEditor : EditorWindow {
     //ui controls
     private Button saveButton;
     private Button newSaveFileButton;
+    private Button editButton;
+    private Toggle showGridToggle;
 
     //visualization
-    
+    bool editMode = false;
+    bool editing = false;
+    int lastEditedX = 0;
+    int lastEditedY = 0;
     
     [MenuItem("Pathfinder Tools/Map Maker")] public static void ShowEditor() {
         EditorWindow wnd = GetWindow<MapMakingEditor>();
@@ -42,10 +47,10 @@ public class MapMakingEditor : EditorWindow {
         newMapPanel = rootVisualElement.Q<IMGUIContainer>("newmappanel");
 
         //set up toolbar buttons for panel selection
-        ToolbarButton editMap = rootVisualElement.Q<ToolbarButton>("edit");
-        ToolbarButton newMap = rootVisualElement.Q<ToolbarButton>("newmap");
-        editMap.clicked += DisplayEditPanel;
-        newMap.clicked += DisplayNewMapPanel;
+        ToolbarButton showEditPanel = rootVisualElement.Q<ToolbarButton>("edit");
+        ToolbarButton showNewMapPanel = rootVisualElement.Q<ToolbarButton>("newmap");
+        showEditPanel.clicked += DisplayEditPanel;
+        showNewMapPanel.clicked += DisplayNewMapPanel;
 
         //button funcs
         saveButton = rootVisualElement.Q<Button>("savemap");
@@ -53,6 +58,13 @@ public class MapMakingEditor : EditorWindow {
         
         newSaveFileButton = newMapPanel.Q<Button>("createnewmap");
         newSaveFileButton.clicked += CreateNewMapFile;
+
+        editButton = editMapPanel.Q<Button>("editmap");
+        editButton.clicked += OnEditModeButton;
+
+        //set up toggle
+        showGridToggle = editMapPanel.Q<Toggle>("showgrid");
+        showGridToggle.RegisterValueChangedCallback(OnShowMapToggle);
 
         //set up file name field
         TextField fileNameField = newMapPanel.Q<TextField>("filename");
@@ -67,10 +79,6 @@ public class MapMakingEditor : EditorWindow {
         PathfindingMapData currFile = (PathfindingMapData)saveFileField.value;
         SetNewSaveFile(currFile);
 
-        //set up toggle
-        Toggle showGridToggle = editMapPanel.Q<Toggle>("showgrid");
-        showGridToggle.RegisterValueChangedCallback(OnShowMapToggle);
-
         //load edit panel as initial view
         DisplayEditPanel();
     }
@@ -78,11 +86,44 @@ public class MapMakingEditor : EditorWindow {
     private void DisplayEditPanel() {
         editMapPanel.style.display = DisplayStyle.Flex;
         newMapPanel.style.display = DisplayStyle.None;
+        ControlEditPanelState();
     }
 
     private void DisplayNewMapPanel() {
         editMapPanel.style.display = DisplayStyle.None;
         newMapPanel.style.display = DisplayStyle.Flex;
+        ControlEditPanelState();
+    }
+
+    private void ControlEditPanelState() {
+        //if edit panel is not up, disable functionality
+        if (editMapPanel.style.display != DisplayStyle.Flex) {
+            DisableEditPanel();
+            return;
+        }
+
+        bool saveFilePresent = file != null;
+        bool gridIsShowing = showGridToggle.value;
+
+        showGridToggle.SetEnabled(saveFilePresent);
+        saveButton.SetEnabled(saveFilePresent);
+        editButton.SetEnabled(gridIsShowing);
+    }
+
+    private void OnDisable() {
+        DisableEditPanel();
+    }
+
+    private void DisableEditPanel() {
+        //toggle off grid
+        if (showGridToggle.enabledSelf)
+            showGridToggle.value = false;
+        SceneView.duringSceneGui -= ProjectGrid;
+
+        //disable edit mode
+        editMode = true;
+        editing = false;
+        SceneView.duringSceneGui -= EditMode;
     }
     #endregion
 
@@ -96,6 +137,8 @@ public class MapMakingEditor : EditorWindow {
     private void SetNewSaveFile(PathfindingMapData newFile) {
         file = newFile;
         saveButton.SetEnabled(file != null);
+
+        ControlEditPanelState();
     }
 
     private void OnNewFileNameChanged(ChangeEvent<string> evt) {
@@ -143,20 +186,36 @@ public class MapMakingEditor : EditorWindow {
     #endregion
 
 
-    #region Visualization In Scene
+    #region Visualization & Editing
     private void OnShowMapToggle(ChangeEvent<bool> evt) {
         if (evt.newValue) {
+            //show grid
             SceneView.duringSceneGui += ProjectGrid;
             ProjectGrid(SceneView.currentDrawingSceneView);
+
+            ControlEditPanelState();
         }
         else {
+            //hide grid
             SceneView.duringSceneGui -= ProjectGrid;
+
+            //disallow edit mode
+            ControlEditPanelState();
+            if (editMode)
+                OnEditModeButton();
         }
     }
-    private void ProjectGrid(SceneView sceneView) {
-        if (file == null)
-            return;
 
+    private void OnEditModeButton() {
+        editMode = !editMode;
+
+        if (editMode)
+            SceneView.duringSceneGui += EditMode;
+        else
+            SceneView.duringSceneGui -= EditMode;
+    }
+
+    private void ProjectGrid(SceneView sceneView) {
         Vector2 cellSize = file.grid.GetCellSize();
         Vector2 offset = new Vector2(-file.grid.GetCellSize().x, -file.grid.GetCellSize().y);
         for (int x = 0; x < file.grid.GetWidth(); x++) {
@@ -166,6 +225,30 @@ public class MapMakingEditor : EditorWindow {
 
                 Color faceColor = file.grid.GetValueAtCoords(x, y).isWalkable ? Color.clear : Color.white;
                 Handles.DrawSolidRectangleWithOutline(rect, faceColor, Color.white);
+            }
+        }
+    }
+
+
+    private void EditMode(SceneView sceneView) {
+        Event e = Event.current;
+        if (!e.isMouse)
+            return;
+
+        //check if edit is allowed
+        if (e.type == EventType.MouseDown && e.button == 0)
+            editing = true;
+        else if (e.type == EventType.MouseUp && e.button == 0)
+            editing = false;
+
+        if (editing) {
+            Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+            SavedPathNode node = file.grid.GetValueAtWorldPos(ray.origin);
+
+            if ((lastEditedX != node.x) || (lastEditedY != node.y)) {
+                node.isWalkable = !node.isWalkable;
+                lastEditedX = node.x;
+                lastEditedY = node.y;
             }
         }
     }
