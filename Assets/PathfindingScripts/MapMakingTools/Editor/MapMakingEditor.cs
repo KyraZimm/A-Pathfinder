@@ -234,6 +234,7 @@ public class MapMakingEditor : EditorWindow {
         else if (e.type == EventType.MouseUp && e.button == 0)
             editing = false;
 
+        //control edit state
         if (editing) {
             Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
             SavedPathNode node = file.grid.GetValueAtWorldPos(ray.origin);
@@ -243,6 +244,10 @@ public class MapMakingEditor : EditorWindow {
                 lastEditedX = node.x;
                 lastEditedY = node.y;
             }
+        }
+        else {
+            lastEditedX = 0;
+            lastEditedY = 0;
         }
     }
     #endregion
