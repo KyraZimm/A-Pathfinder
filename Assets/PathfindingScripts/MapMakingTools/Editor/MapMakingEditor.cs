@@ -22,7 +22,6 @@ public class MapMakingEditor : EditorWindow {
     private IMGUIContainer newMapPanel;
 
     //ui controls
-    private Button saveButton;
     private Button newSaveFileButton;
     private Button editButton;
     private Toggle showGridToggle;
@@ -53,9 +52,6 @@ public class MapMakingEditor : EditorWindow {
         showNewMapPanel.clicked += DisplayNewMapPanel;
 
         //button funcs
-        saveButton = rootVisualElement.Q<Button>("savemap");
-        //saveButton.RegisterCallback<MouseUpEvent>((evt) => mapMaker.SaveCurrMapData());
-        
         newSaveFileButton = newMapPanel.Q<Button>("createnewmap");
         newSaveFileButton.clicked += CreateNewMapFile;
 
@@ -106,7 +102,6 @@ public class MapMakingEditor : EditorWindow {
         bool gridIsShowing = showGridToggle.value;
 
         showGridToggle.SetEnabled(saveFilePresent);
-        saveButton.SetEnabled(saveFilePresent);
         editButton.SetEnabled(gridIsShowing);
     }
 
@@ -136,8 +131,6 @@ public class MapMakingEditor : EditorWindow {
 
     private void SetNewSaveFile(PathfindingMapData newFile) {
         file = newFile;
-        saveButton.SetEnabled(file != null);
-
         ControlEditPanelState();
     }
 
