@@ -14,7 +14,7 @@ public class MapMakingEditor : EditorWindow {
     public VisualTreeAsset testUXML;
 
     //file import & export
-    private PathfindingMapData file;
+    private SOMapData file;
     const string EXPORT_FOLDER_PATH = "Assets/MapData";
     string newFileName;
 
@@ -73,7 +73,7 @@ public class MapMakingEditor : EditorWindow {
         ObjectField saveFileField = rootVisualElement.Q<ObjectField>("savefile");
         saveFileField.RegisterValueChangedCallback(OnSaveFileChangedEvent);
 
-        PathfindingMapData currFile = (PathfindingMapData)saveFileField.value;
+        SOMapData currFile = (SOMapData)saveFileField.value;
         SetNewSaveFile(currFile);
 
         //load edit panel as initial view
@@ -126,11 +126,11 @@ public class MapMakingEditor : EditorWindow {
 
     #region File Handling
     private void OnSaveFileChangedEvent(ChangeEvent<UnityEngine.Object> evt) {
-        PathfindingMapData newFile = (PathfindingMapData)evt.newValue;
+        SOMapData newFile = (SOMapData)evt.newValue;
         SetNewSaveFile(newFile);
     }
 
-    private void SetNewSaveFile(PathfindingMapData newFile) {
+    private void SetNewSaveFile(SOMapData newFile) {
         file = newFile;
         ControlEditPanelState();
     }
@@ -153,7 +153,7 @@ public class MapMakingEditor : EditorWindow {
         Vector2 origin = newMapPanel.Q<Vector2Field>("origin").value;
 
         //generate new save file w/ blank grid
-        PathfindingMapData newMapData = ScriptableObject.CreateInstance<PathfindingMapData>();
+        SOMapData newMapData = ScriptableObject.CreateInstance<SOMapData>();
         Grid<SavedPathNode> newMap = new Grid<SavedPathNode>(width, height, cellSize, origin);
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -238,7 +238,7 @@ public class MapMakingEditor : EditorWindow {
         //control edit state
         if (editing) {
             Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
-            Vector2 pos = (Vector2)ray.origin + file.grid.GetCellSize() / 2;
+            Vector2 pos = (Vector2)ray.origin;
             SavedPathNode node = file.grid.GetValueAtWorldPos(pos);
 
             if ((lastEditedX != node.x) || (lastEditedY != node.y)) {

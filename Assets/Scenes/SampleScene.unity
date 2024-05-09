@@ -246,7 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapAssignments:
-  - mapData: {fileID: 11400000, guid: 60a15c45d36a9984d8e5661439d1c3b5, type: 2}
+  - mapData: {fileID: 11400000, guid: 15f2b3fe3e6c4a647a6c97d50a4b54b6, type: 2}
     pathFollowers:
     - {fileID: 8796346639364856615}
 --- !u!4 &1628334370

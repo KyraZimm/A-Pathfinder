@@ -19,7 +19,7 @@ public class PathfindingManager : MonoBehaviour {
 
     [SerializeField] private MapAssignment[] mapAssignments;
     [System.Serializable] private struct MapAssignment {
-        public PathfindingMapData mapData;
+        public SOMapData mapData;
         public List<PathFollower> pathFollowers;
     }
 

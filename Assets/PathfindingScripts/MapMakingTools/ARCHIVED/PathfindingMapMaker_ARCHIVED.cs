@@ -14,7 +14,7 @@ public class PathfindingMapMaker : MonoBehaviour {
     [SerializeField] Vector2 origin;
     [SerializeField] string newSaveFileName;
 
-    [SerializeField] PathfindingMapData saveFile;
+    [SerializeField] SOMapData saveFile;
     [SerializeField] GameObject cellPrefab;
 
     Pathfinder pathfinder;
@@ -113,7 +113,7 @@ public class PathfindingMapMaker : MonoBehaviour {
             }
         }
 
-        PathfindingMapData newSaveData = ScriptableObject.CreateInstance<PathfindingMapData>();
+        SOMapData newSaveData = ScriptableObject.CreateInstance<SOMapData>();
         SaveMapData(WriteNewSaveData());
         AssetDatabase.CreateAsset(newSaveData, savePath);
 

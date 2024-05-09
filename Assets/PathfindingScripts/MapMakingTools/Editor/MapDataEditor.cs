@@ -10,12 +10,12 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 #endif
 namespace Pathfinding {
-    [CustomEditor(typeof(PathfindingMapData))]
+    [CustomEditor(typeof(SOMapData))]
     public class MapDataEditor : Editor {
         public VisualTreeAsset UXML;
 
         public override VisualElement CreateInspectorGUI() {
-            PathfindingMapData data = (PathfindingMapData)target;
+            SOMapData data = (SOMapData)target;
 
             VisualElement root = new VisualElement();
             UXML.CloneTree(root);

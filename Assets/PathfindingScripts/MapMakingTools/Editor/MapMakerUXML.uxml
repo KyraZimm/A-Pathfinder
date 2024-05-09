@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <uie:ObjectField label="Map File" type="PathfindingMapData, Assembly-CSharp" name="savefile" style="border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px;" />
+    <uie:ObjectField label="Map File" type="Pathfinding.SOMapData, Assembly-CSharp" name="savefile" allow-scene-objects="true" style="border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px;" />
     <uie:Toolbar>
         <uie:ToolbarButton text="Edit Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="edit" />
         <uie:ToolbarButton text="Generate New Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="newmap" enable-rich-text="true" />
@@ -11,7 +11,7 @@
     <ui:IMGUIContainer name="newmappanel" style="display: flex; border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px;">
         <ui:IntegerField label="Width" value="1" name="width" />
         <ui:IntegerField label="Height" value="1" name="height" />
-        <ui:Vector2Field label="Cell Size" binding-path="testInt" name="cellsize" />
+        <ui:Vector2Field label="Cell Size" name="cellsize" x="1" y="1" />
         <ui:Vector2Field label="Origin" name="origin" />
         <ui:TextField picking-mode="Ignore" label="File Name" value="New Map File" name="filename" />
         <ui:Button text="Create New Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="createnewmap" style="border-top-width: 10px;" />

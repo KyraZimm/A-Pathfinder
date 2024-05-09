@@ -10,6 +10,10 @@ PathFollowers
 -  More options for assigning map data to PathFollowers (eg. loading from pathfollower inspector, loading from a serialized reference, etc)
 -  More PathFollower example types (eg. PatrollingEnemy, which loops a path until the Player is in view, then chases player)
 
+Bugs:
+- File name for exported save files is sometimes wrong
+- Need to press "Edit Mode" button more than once
 
 CURRENT TASK:
 -  JSON and CSV save options for maps
+-  file name bug fix
