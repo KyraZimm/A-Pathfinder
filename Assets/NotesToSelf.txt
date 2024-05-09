@@ -1,0 +1,11 @@
+TO DO:
+
+Manipulating & Making Saved Maps
+-  JSON option for map save data
+-  Map auto-create options (eg. marking certain layers as unwalkable instead of editing each node, then generating that map for designer)
+-  Save options for map-creation settings
+
+PathFollowers
+-  More options for assigning map data to PathFollowers (eg. loading from pathfollower inspector, loading from a serialized reference, etc)
+-  More PathFollower example types (eg. PatrollingEnemy, which loops a path until the Player is in view, then chases player)
+
