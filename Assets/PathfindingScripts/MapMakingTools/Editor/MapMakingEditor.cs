@@ -136,6 +136,7 @@ public class MapMakingEditor : EditorWindow {
     }
 
     private void OnNewFileNameChanged(ChangeEvent<string> evt) {
+        newFileName = evt.newValue;
         ValidateFileName(evt.newValue);
     }
 
