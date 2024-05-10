@@ -24,6 +24,7 @@ public class MapMakingEditor : EditorWindow {
 
     //ui controls
     private Button newSaveFileButton;
+    private Button saveButton;
     private Button editButton;
     private Toggle showGridToggle;
 
@@ -55,6 +56,9 @@ public class MapMakingEditor : EditorWindow {
         //button funcs
         newSaveFileButton = newMapPanel.Q<Button>("createnewmap");
         newSaveFileButton.clicked += CreateNewMapFile;
+
+        saveButton = editMapPanel.Q<Button>("save");
+        saveButton.clicked += SaveMapContents;
 
         editButton = editMapPanel.Q<Button>("editmap");
         editButton.clicked += OnEditModeButton;
@@ -101,9 +105,11 @@ public class MapMakingEditor : EditorWindow {
 
         bool saveFilePresent = file != null;
         bool gridIsShowing = showGridToggle.value;
+        bool gridIsEdited = saveFilePresent && EditorUtility.IsDirty(file.GetInstanceID());
 
         showGridToggle.SetEnabled(saveFilePresent);
         editButton.SetEnabled(gridIsShowing);
+        saveButton.SetEnabled(gridIsEdited);
     }
 
     private void OnDisable() {
@@ -178,6 +184,13 @@ public class MapMakingEditor : EditorWindow {
         //since file exists now, validate file name to diable button
         ValidateFileName(newFileName);
     }
+
+    private void SaveMapContents() {
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
+        ControlEditPanelState();
+    }
     #endregion
 
 
@@ -246,6 +259,9 @@ public class MapMakingEditor : EditorWindow {
                 node.isWalkable = !node.isWalkable;
                 lastEditedX = node.x;
                 lastEditedY = node.y;
+
+                EditorUtility.SetDirty(file);
+                ControlEditPanelState();
             }
         }
         else {
