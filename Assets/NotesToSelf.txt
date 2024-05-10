@@ -2,6 +2,7 @@ TO DO:
 
 Manipulating & Making Saved Maps
 -  JSON option for map save data
+-  CSV option for map save data
 -  Map auto-create options (eg. marking certain layers as unwalkable instead of editing each node, then generating that map for designer)
 -  Save options for map-creation settings
 -  Split MapMakingEditor grid from save file grid so that save button can be re-added to the Maker Maker Window
@@ -16,4 +17,3 @@ Bugs:
 
 CURRENT TASK:
 -  JSON and CSV save options for maps
--  file name bug fix

@@ -14,11 +14,14 @@ public class MapMakingEditor : EditorWindow {
     public VisualTreeAsset testUXML;
 
     //file import & export
-    private SOMapData file;
+    private SaveUtils.SupportedFileTypes fileType;
+    private SOMapData fileSO;
+    private TextAsset fileJSON;
     const string EXPORT_FOLDER_PATH = "Assets/MapData";
     string newFileName;
 
     //layout
+    private IMGUIContainer headerPanel;
     private IMGUIContainer editMapPanel;
     private IMGUIContainer newMapPanel;
 
@@ -33,6 +36,7 @@ public class MapMakingEditor : EditorWindow {
     bool editing = false;
     int lastEditedX = 0;
     int lastEditedY = 0;
+    Grid<SavedPathNode> dispGrid;
     
     [MenuItem("Pathfinder Tools/Map Maker")] public static void ShowEditor() {
         EditorWindow wnd = GetWindow<MapMakingEditor>();
@@ -46,6 +50,7 @@ public class MapMakingEditor : EditorWindow {
         //ref different panels
         editMapPanel = rootVisualElement.Q<IMGUIContainer>("editmappanel");
         newMapPanel = rootVisualElement.Q<IMGUIContainer>("newmappanel");
+        headerPanel = rootVisualElement.Q<IMGUIContainer>("header");
 
         //set up toolbar buttons for panel selection
         ToolbarButton showEditPanel = rootVisualElement.Q<ToolbarButton>("edit");
@@ -73,17 +78,33 @@ public class MapMakingEditor : EditorWindow {
         newFileName = fileNameField.value;
         ValidateFileName(newFileName);
 
-        //set up map file location to save to
-        ObjectField saveFileField = rootVisualElement.Q<ObjectField>("savefile");
-        saveFileField.RegisterValueChangedCallback(OnSaveFileChangedEvent);
+        //header setup
+        headerPanel.Q<EnumField>("filetype").RegisterValueChangedCallback(OnHeaderChanged);
 
-        SOMapData currFile = (SOMapData)saveFileField.value;
-        SetNewSaveFile(currFile);
+        ObjectField soFileField = rootVisualElement.Q<ObjectField>("sofile");
+        soFileField.RegisterValueChangedCallback(OnSaveFileChangedEvent);
+        fileSO = (SOMapData)soFileField.value;
+
+        ObjectField jsonFileField = rootVisualElement.Q<ObjectField>("jsonfile");
+        jsonFileField.RegisterValueChangedCallback(OnSaveFileChangedEvent);
+        fileJSON = (TextAsset)jsonFileField.value;
+
+        UpdateHeader();
+        switch (fileType) {
+            case SaveUtils.SupportedFileTypes.SO:
+                SetNewSOFile(fileSO);
+                break;
+            case SaveUtils.SupportedFileTypes.JSON:
+                SetNewJSONFile(fileJSON);
+                break;
+        }
 
         //load edit panel as initial view
         DisplayEditPanel();
+
     }
 
+    //PANEL SWITCHING
     private void DisplayEditPanel() {
         editMapPanel.style.display = DisplayStyle.Flex;
         newMapPanel.style.display = DisplayStyle.None;
@@ -96,6 +117,30 @@ public class MapMakingEditor : EditorWindow {
         ControlEditPanelState();
     }
 
+    //HEADER
+    private void OnHeaderChanged(ChangeEvent<System.Enum> evt) { UpdateHeader((SaveUtils.SupportedFileTypes)evt.newValue); }
+    private void UpdateHeader() {
+        System.Enum val = headerPanel.Q<EnumField>("filetype").value;
+        UpdateHeader((SaveUtils.SupportedFileTypes)val);
+    }
+    private void UpdateHeader(SaveUtils.SupportedFileTypes overrideValue) {
+        fileType = overrideValue;
+        switch (fileType){
+            case SaveUtils.SupportedFileTypes.SO:
+                headerPanel.Q<ObjectField>("sofile").style.display = DisplayStyle.Flex;
+                headerPanel.Q<ObjectField>("jsonfile").style.display = DisplayStyle.None;
+                break;
+            case SaveUtils.SupportedFileTypes.JSON:
+                headerPanel.Q<ObjectField>("sofile").style.display = DisplayStyle.None;
+                headerPanel.Q<ObjectField>("jsonfile").style.display = DisplayStyle.Flex;
+                break;
+        }
+
+        PreloadGrid();
+    }
+
+
+    //EDIT PANEL
     private void ControlEditPanelState() {
         //if edit panel is not up, disable functionality
         if (editMapPanel.style.display != DisplayStyle.Flex) {
@@ -103,17 +148,13 @@ public class MapMakingEditor : EditorWindow {
             return;
         }
 
-        bool saveFilePresent = file != null;
+        bool saveFilePresent = (fileType == SaveUtils.SupportedFileTypes.SO && fileSO != null) || (fileType == SaveUtils.SupportedFileTypes.JSON && fileJSON != null);
         bool gridIsShowing = showGridToggle.value;
-        bool gridIsEdited = saveFilePresent && EditorUtility.IsDirty(file.GetInstanceID());
+        //bool gridIsEdited = saveFilePresent && EditorUtility.IsDirty(dispGrid.id);
 
         showGridToggle.SetEnabled(saveFilePresent);
         editButton.SetEnabled(gridIsShowing);
-        saveButton.SetEnabled(gridIsEdited);
-    }
-
-    private void OnDisable() {
-        DisableEditPanel();
+        saveButton.SetEnabled(saveFilePresent && gridIsShowing);
     }
 
     private void DisableEditPanel() {
@@ -127,17 +168,34 @@ public class MapMakingEditor : EditorWindow {
         editing = false;
         SceneView.duringSceneGui -= EditMode;
     }
+
+    private void OnDisable() {
+        DisableEditPanel();
+    }
     #endregion
 
 
     #region File Handling
     private void OnSaveFileChangedEvent(ChangeEvent<UnityEngine.Object> evt) {
-        SOMapData newFile = (SOMapData)evt.newValue;
-        SetNewSaveFile(newFile);
+        switch (fileType) {
+            case SaveUtils.SupportedFileTypes.SO:
+                SetNewSOFile((SOMapData)evt.newValue);
+                break;
+            case SaveUtils.SupportedFileTypes.JSON:
+                SetNewJSONFile((TextAsset)evt.newValue);
+                break;
+        }
     }
 
-    private void SetNewSaveFile(SOMapData newFile) {
-        file = newFile;
+    private void SetNewSOFile(SOMapData newFile) {
+        fileSO = newFile;
+        PreloadGrid();
+        ControlEditPanelState();
+    }
+
+    private void SetNewJSONFile(TextAsset newFile) {
+        fileJSON = newFile;
+        PreloadGrid();
         ControlEditPanelState();
     }
 
@@ -186,6 +244,16 @@ public class MapMakingEditor : EditorWindow {
     }
 
     private void SaveMapContents() {
+        switch (fileType) {
+            case SaveUtils.SupportedFileTypes.SO:
+                fileSO.grid = dispGrid;
+                EditorUtility.SetDirty(fileSO);
+                break;
+            case SaveUtils.SupportedFileTypes.JSON:
+                SaveUtils.SaveToJson(fileJSON.name, dispGrid);
+                break;
+        }
+
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
 
@@ -223,15 +291,37 @@ public class MapMakingEditor : EditorWindow {
             SceneView.duringSceneGui -= EditMode;
     }
 
+    private void PreloadGrid() {
+        Grid<SavedPathNode> tryReadGrid = new Grid<SavedPathNode>(0, 0, Vector2.zero, Vector2.zero);
+        switch (fileType) {
+            case SaveUtils.SupportedFileTypes.SO:
+                if (fileSO == null) return;
+                tryReadGrid = fileSO.grid;
+                break;
+            case SaveUtils.SupportedFileTypes.JSON:
+                if (fileJSON == null) return;
+                tryReadGrid = JsonUtility.FromJson<Grid<SavedPathNode>>(fileJSON.text);
+                break;
+        }
+
+        if (tryReadGrid.GetWidth() > 0 && tryReadGrid.GetHeight() > 0)
+            dispGrid = tryReadGrid;
+    }
+
     private void ProjectGrid(SceneView sceneView) {
-        Vector2 cellSize = file.grid.GetCellSize();
+        //if grid has not been loaded, try to load now
+        if (dispGrid.GetWidth() <= 0 && dispGrid.GetHeight() <= 0)
+            PreloadGrid();
+
+        //display grid
+        Vector2 cellSize = dispGrid.GetCellSize();
         Vector2 offset = new Vector2(-cellSize.x/2, -cellSize.y/2);
-        for (int x = 0; x < file.grid.GetWidth(); x++) {
-            for (int y = 0; y < file.grid.GetHeight(); y++) {
-                Vector2 rectOrigin = file.grid.GetCellWorldPos(x, y) + offset; //get top-left corner of node
+        for (int x = 0; x < dispGrid.GetWidth(); x++) {
+            for (int y = 0; y < dispGrid.GetHeight(); y++) {
+                Vector2 rectOrigin = dispGrid.GetCellWorldPos(x, y) + offset; //get top-left corner of node
                 Rect rect = new Rect(rectOrigin.x, rectOrigin.y, cellSize.x, cellSize.y);
 
-                Color faceColor = file.grid.GetValueAtCoords(x, y).isWalkable ? Color.clear : Color.white;
+                Color faceColor = dispGrid.GetValueAtCoords(x, y).isWalkable ? Color.clear : Color.white;
                 Handles.DrawSolidRectangleWithOutline(rect, faceColor, Color.white);
             }
         }
@@ -253,14 +343,16 @@ public class MapMakingEditor : EditorWindow {
         if (editing) {
             Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
             Vector2 pos = (Vector2)ray.origin;
-            SavedPathNode node = file.grid.GetValueAtWorldPos(pos);
+            SavedPathNode node = dispGrid.GetValueAtWorldPos(pos);
 
             if ((lastEditedX != node.x) || (lastEditedY != node.y)) {
                 node.isWalkable = !node.isWalkable;
+                dispGrid.SetValueAtCoords(node.x, node.y, node);
+
                 lastEditedX = node.x;
                 lastEditedY = node.y;
 
-                EditorUtility.SetDirty(file);
+                //EditorUtility.SetDirty(fileSO);
                 ControlEditPanelState();
             }
         }

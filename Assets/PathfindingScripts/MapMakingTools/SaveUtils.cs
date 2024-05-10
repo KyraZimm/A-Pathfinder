@@ -5,21 +5,22 @@ using System.IO;
 
 namespace Pathfinding {
 
-    /*#region Save Data Structures
-
-    [CreateAssetMenu(fileName = "Map Data", menuName = "ScriptableObjects/Map Data")]
-    public class SOMapData : ScriptableObject {
-        public Grid<SavedPathNode> grid;
-
-        public SOMapData(Grid<SavedPathNode> grid) { this.grid = grid; }
-    }
-    #endregion*/
-
     public static class SaveUtils {
         private const string EXPORT_FOLDER_PATH = "Assets/MapData/";
+        public enum SupportedFileTypes { JSON, SO }
+
         public static void SaveToJson(string jsonName, Pathfinder pathfinder) {
             string path = EXPORT_FOLDER_PATH + jsonName + ".json";
-            string contents = JsonUtility.ToJson(pathfinder.ToSaveDataGrid());
+            string contents = JsonUtility.ToJson(pathfinder.ToSaveDataGrid(), true);
+
+            if (!File.Exists(path))
+                File.Create(path);
+            File.WriteAllTextAsync(path, contents);
+        }
+
+        public static void SaveToJson(string jsonName, Grid<SavedPathNode> savedGrid) {
+            string path = EXPORT_FOLDER_PATH + jsonName + ".json";
+            string contents = JsonUtility.ToJson(savedGrid, true);
 
             if (!File.Exists(path))
                 File.Create(path);

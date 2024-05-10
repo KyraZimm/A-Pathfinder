@@ -1,5 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <uie:ObjectField label="Map File" type="Pathfinding.SOMapData, Assembly-CSharp" name="savefile" allow-scene-objects="true" style="border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px;" />
+    <ui:IMGUIContainer name="header" style="border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px; height: 88px;">
+        <ui:EnumField label="File Type" type="Pathfinding.SaveUtils+SupportedFileTypes, Assembly-CSharp" name="filetype" />
+        <uie:ObjectField label="Map File" type="Pathfinding.SOMapData, Assembly-CSharp, TextAsset" name="sofile" allow-scene-objects="true" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+        <uie:ObjectField label="Map File" type="UnityEngine.TextAsset, UnityEngine.CoreModule" name="jsonfile" allow-scene-objects="true" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+    </ui:IMGUIContainer>
     <uie:Toolbar>
         <uie:ToolbarButton text="Edit Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="edit" />
         <uie:ToolbarButton text="Generate New Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="newmap" enable-rich-text="true" />
