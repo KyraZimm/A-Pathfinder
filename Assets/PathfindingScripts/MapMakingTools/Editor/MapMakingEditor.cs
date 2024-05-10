@@ -150,7 +150,7 @@ public class MapMakingEditor : EditorWindow {
 
         bool saveFilePresent = (fileType == SaveUtils.SupportedFileTypes.SO && fileSO != null) || (fileType == SaveUtils.SupportedFileTypes.JSON && fileJSON != null);
         bool gridIsShowing = showGridToggle.value;
-        //bool gridIsEdited = saveFilePresent && EditorUtility.IsDirty(dispGrid.id);
+        //bool gridIsEdited = saveFilePresent && EditorUtility.IsDirty(fileSO.id);
 
         showGridToggle.SetEnabled(saveFilePresent);
         editButton.SetEnabled(gridIsShowing);
@@ -205,7 +205,7 @@ public class MapMakingEditor : EditorWindow {
     }
 
     private void ValidateFileName(string candidateName) {
-        string path = EXPORT_FOLDER_PATH + "/" + candidateName + ".asset";
+        string path = EXPORT_FOLDER_PATH + "/" + candidateName + SaveUtils.GetFileSuffix(fileType);
         newSaveFileButton.SetEnabled(!File.Exists(path));
     }
 
@@ -218,7 +218,6 @@ public class MapMakingEditor : EditorWindow {
         Vector2 origin = newMapPanel.Q<Vector2Field>("origin").value;
 
         //generate new save file w/ blank grid
-        SOMapData newMapData = ScriptableObject.CreateInstance<SOMapData>();
         Grid<SavedPathNode> newMap = new Grid<SavedPathNode>(width, height, cellSize, origin);
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -226,19 +225,19 @@ public class MapMakingEditor : EditorWindow {
                 newMap.SetValueAtCoords(x, y, nodeToSave);
             }
         }
-        newMapData.grid = newMap;
-
-        //generate file at preferred path
-        string savePath = EXPORT_FOLDER_PATH + "/" + newFileName + ".asset";
-        AssetDatabase.CreateAsset(newMapData, savePath);
-
-        Debug.Log($"New save file {newFileName} was created at {savePath}.");
-        AssetDatabase.Refresh();
 
         //update selected map file
-        ObjectField saveFileField = rootVisualElement.Q<ObjectField>("savefile");
-        saveFileField.value = newMapData;
-
+        switch (fileType) {
+            case SaveUtils.SupportedFileTypes.SO:
+                SOMapData newSOFile= SaveUtils.MakeNewSOMapFile(newFileName, newMap);
+                headerPanel.Q<ObjectField>("sofile").value = newSOFile;
+                break;
+            case SaveUtils.SupportedFileTypes.JSON:
+                SaveUtils.MakeNewJson(newFileName, newMap);
+                //load new JSON here - WIP
+                break;
+        }
+        
         //since file exists now, validate file name to diable button
         ValidateFileName(newFileName);
     }
