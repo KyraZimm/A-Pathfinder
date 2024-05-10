@@ -1,19 +1,18 @@
 TO DO:
 
 Manipulating & Making Saved Maps
--  JSON option for map save data
--  CSV option for map save data
+-  Allowing designer to change size of presaved maps
 -  Map auto-create options (eg. marking certain layers as unwalkable instead of editing each node, then generating that map for designer)
 -  Save options for map-creation settings
 -  Split MapMakingEditor grid from save file grid so that save button can be re-added to the Maker Maker Window
+-  CSV save options? (looking like this might not be necessary)
 
 PathFollowers
 -  More options for assigning map data to PathFollowers (eg. loading from pathfollower inspector, loading from a serialized reference, etc)
 -  More PathFollower example types (eg. PatrollingEnemy, which loops a path until the Player is in view, then chases player)
 
 Bugs:
-- File name for exported save files is sometimes wrong
 - Need to press "Edit Mode" button more than once
 
 CURRENT TASK:
--  JSON and CSV save options for maps
+-  Map auto-create options
