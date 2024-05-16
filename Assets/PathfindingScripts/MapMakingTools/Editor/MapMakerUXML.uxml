@@ -19,5 +19,4 @@
     <ui:Button text="Save Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="save" style="border-top-width: 5px;" />
     <ui:Button text="Create New Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="createnewmap" style="border-top-width: 10px;" />
     <ui:TextField picking-mode="Ignore" label="File Name" value="New Map File" name="filename" />
-    <ui:IntegerField label="Integer Field" value="42" name="test" binding-path="MapMakingEditor.testInt" />
 </ui:UXML>

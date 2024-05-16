@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: New Map File
   m_EditorClassIdentifier: 
   grid:
-    width: 10
-    height: 8
+    width: 9
+    height: 9
     origin: {x: 0, y: 0}
     cellSize: {x: 1, y: 1}
     cells:
@@ -67,6 +67,12 @@ MonoBehaviour:
           x: 0
           y: 0
           isWalkable: 0
+      - index0: 0
+        index1: 8
+        item:
+          x: 0
+          y: 0
+          isWalkable: 0
       - index0: 1
         index1: 0
         item:
@@ -111,6 +117,12 @@ MonoBehaviour:
           isWalkable: 0
       - index0: 1
         index1: 7
+        item:
+          x: 0
+          y: 0
+          isWalkable: 0
+      - index0: 1
+        index1: 8
         item:
           x: 0
           y: 0
@@ -163,6 +175,12 @@ MonoBehaviour:
           x: 0
           y: 0
           isWalkable: 0
+      - index0: 2
+        index1: 8
+        item:
+          x: 0
+          y: 0
+          isWalkable: 0
       - index0: 3
         index1: 0
         item:
@@ -211,6 +229,12 @@ MonoBehaviour:
           x: 0
           y: 0
           isWalkable: 0
+      - index0: 3
+        index1: 8
+        item:
+          x: 0
+          y: 0
+          isWalkable: 0
       - index0: 4
         index1: 0
         item:
@@ -259,6 +283,12 @@ MonoBehaviour:
           x: 0
           y: 0
           isWalkable: 0
+      - index0: 4
+        index1: 8
+        item:
+          x: 0
+          y: 0
+          isWalkable: 0
       - index0: 5
         index1: 0
         item:
@@ -307,6 +337,12 @@ MonoBehaviour:
           x: 0
           y: 0
           isWalkable: 0
+      - index0: 5
+        index1: 8
+        item:
+          x: 0
+          y: 0
+          isWalkable: 0
       - index0: 6
         index1: 0
         item:
@@ -355,6 +391,12 @@ MonoBehaviour:
           x: 0
           y: 0
           isWalkable: 0
+      - index0: 6
+        index1: 8
+        item:
+          x: 0
+          y: 0
+          isWalkable: 0
       - index0: 7
         index1: 0
         item:
@@ -403,6 +445,12 @@ MonoBehaviour:
           x: 0
           y: 0
           isWalkable: 0
+      - index0: 7
+        index1: 8
+        item:
+          x: 0
+          y: 0
+          isWalkable: 0
       - index0: 8
         index1: 0
         item:
@@ -451,53 +499,11 @@ MonoBehaviour:
           x: 0
           y: 0
           isWalkable: 0
-      - index0: 9
-        index1: 0
+      - index0: 8
+        index1: 8
         item:
           x: 0
           y: 0
           isWalkable: 0
-      - index0: 9
-        index1: 1
-        item:
-          x: 0
-          y: 0
-          isWalkable: 0
-      - index0: 9
-        index1: 2
-        item:
-          x: 0
-          y: 0
-          isWalkable: 0
-      - index0: 9
-        index1: 3
-        item:
-          x: 0
-          y: 0
-          isWalkable: 0
-      - index0: 9
-        index1: 4
-        item:
-          x: 0
-          y: 0
-          isWalkable: 0
-      - index0: 9
-        index1: 5
-        item:
-          x: 0
-          y: 0
-          isWalkable: 0
-      - index0: 9
-        index1: 6
-        item:
-          x: 0
-          y: 0
-          isWalkable: 0
-      - index0: 9
-        index1: 7
-        item:
-          x: 0
-          y: 0
-          isWalkable: 0
-      length0: 10
-      length1: 8
+      length0: 9
+      length1: 9

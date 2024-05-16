@@ -26,10 +26,10 @@ public class MapMakingEditor : EditorWindow {
 
     //map dimensions / visibility
     Grid<SavedPathNode> dispGrid;
-    [SerializeField] int width;
-    [SerializeField] int height;
-    [SerializeField] Vector2 cellSize;
-    [SerializeField] Vector2 origin;
+    [SerializeField] int width = 1;
+    [SerializeField] int height = 1;
+    [SerializeField] Vector2 cellSize = Vector2.one;
+    [SerializeField] Vector2 origin = Vector2.zero;
 
 
     #region Layout Updates & Setup
@@ -56,8 +56,6 @@ public class MapMakingEditor : EditorWindow {
         //save func
         saveButton = rootVisualElement.Q<Button>("save");
         saveButton.clicked += SaveMapContents;
-
-        widthField = rootVisualElement.Q<IntegerField>("width");
 
         //add binding fields from UI Builder
         SerializedObject so = new SerializedObject(this);
@@ -117,6 +115,9 @@ public class MapMakingEditor : EditorWindow {
             cellSize = tryReadGrid.GetCellSize();
             origin = tryReadGrid.GetOrigin();
         }
+
+        //remove dirty flags
+        EditorUtility.ClearDirty(this);
     }
 
     private void SaveMapContents() {
@@ -134,6 +135,8 @@ public class MapMakingEditor : EditorWindow {
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+
+        EditorUtility.ClearDirty(this);
     }
     #endregion
 
