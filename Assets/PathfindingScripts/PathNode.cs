@@ -37,7 +37,7 @@ namespace Pathfinding {
     [System.Serializable] public class SavedPathNode {
         public int x;
         public int y;
-        public bool isWalkable;
+        public bool isWalkable = true;
 
         public SavedPathNode(int x, int y, bool isWalkable) {
             this.x = x;
