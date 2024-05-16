@@ -32,12 +32,6 @@ using UnityEngine;
         GetCellCoords(worldPos, out x, out y, false);
     }
     public void GetCellCoords(Vector2 worldPos, out int x, out int y, bool alwaysClampToGrid) {
-        /*float fx = ((worldPos.x - origin.x) / cellSize.x) + (cellSize.x / 2);
-        float fy = ((worldPos.y - origin.y) / cellSize.y) + (cellSize.y / 2);
-
-        x = Mathf.FloorToInt(fx);
-        y = Mathf.FloorToInt(fy);*/
-
         x = Mathf.FloorToInt((worldPos.x - origin.x) / cellSize.x);
         y = Mathf.FloorToInt((worldPos.y - origin.y) / cellSize.y);
 
@@ -73,5 +67,19 @@ using UnityEngine;
         GetCellCoords(worldPos, out int x, out int y);
         return cells.Array[x, y];
     }
+
+    public void ChangeGridDimensions(int numColumnsToAdd, int numRowsToAdd) { //accepts negative integers if items should be removed
+        width += numColumnsToAdd;
+        height += numRowsToAdd;
+
+        //make sure neither height or width has been set to 0 or a negative number
+        if (width < 1) width = 1;
+        if (height < 1) height = 1;
+
+        cells.ChangeArraySize(width, height);
+    }
+
+    public void SetCellSize(Vector2 newCellSize) { cellSize = newCellSize; }
+    public void SetOrigin(Vector2 newOrigin) { origin = newOrigin; }
 
 }

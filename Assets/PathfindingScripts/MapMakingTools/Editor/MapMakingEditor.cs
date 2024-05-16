@@ -53,6 +53,9 @@ public class MapMakingEditor : EditorWindow {
 
         UpdateHeader();
 
+        //dimension layout setup
+
+
         //save func
         saveButton = rootVisualElement.Q<Button>("save");
         saveButton.clicked += SaveMapContents;
@@ -86,8 +89,10 @@ public class MapMakingEditor : EditorWindow {
     private void UpdateWindowState() {
         bool saveFilePresent = (fileType == SaveUtils.SupportedFileTypes.SO && SOfile != null) || (fileType == SaveUtils.SupportedFileTypes.JSON && JSONfile != null);
         bool changesMade = EditorUtility.IsDirty(this);
+        bool gridSizeEdited = !(dispGrid.GetWidth() == width && dispGrid.GetHeight() == height);
 
         saveButton.SetEnabled(saveFilePresent && changesMade);
+        UpdateDispGridSize();
     }
 
     #endregion
@@ -114,6 +119,8 @@ public class MapMakingEditor : EditorWindow {
             height = tryReadGrid.GetHeight();
             cellSize = tryReadGrid.GetCellSize();
             origin = tryReadGrid.GetOrigin();
+
+            dispGrid = tryReadGrid;
         }
 
         //remove dirty flags
@@ -143,5 +150,15 @@ public class MapMakingEditor : EditorWindow {
 
     #region Visualization & Editing
 
+    private void UpdateDispGridSize() {
+        //see if 2D grid array needs to be resized
+        int widthDiff = width - dispGrid.GetWidth();
+        int heightDiff = height - dispGrid.GetHeight();
+        if (widthDiff != 0 || heightDiff != 0) dispGrid.ChangeGridDimensions(widthDiff, heightDiff);
+
+        //make sure cell size and origin also match
+        if (dispGrid.GetCellSize() != cellSize) dispGrid.SetOrigin(cellSize);
+        if (dispGrid.GetOrigin() != origin) dispGrid.SetOrigin(origin);
+    }
     #endregion
 }

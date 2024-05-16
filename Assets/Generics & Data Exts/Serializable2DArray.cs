@@ -61,5 +61,20 @@ using UnityEngine;
         for (int i = 0; i < serialized.Length; i++)
             unserialized[serialized[i].index0, serialized[i].index1] = serialized[i].item;
     }
+
+    public void ChangeArraySize(int newLength0, int newLength1) {
+        //make sure array size is never negative
+        if (newLength0 < 0) newLength0 = 0;
+        if (newLength1 < 0) newLength1 = 0;
+
+        //make new sized array, copy over elements that were already input
+        T[,] copyTo = new T[newLength0, newLength1];
+        for (int x = 0; x < newLength0; x++)
+            for (int y = 0; y < newLength1; y++)
+                copyTo[x, y] = (x < length0 && y < length1) ? unserialized[x, y] : default(T);
+
+        //set new array
+        unserialized = copyTo;
+    }
     
 }
