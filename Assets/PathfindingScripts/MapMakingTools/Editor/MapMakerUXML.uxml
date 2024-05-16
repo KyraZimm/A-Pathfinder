@@ -1,24 +1,23 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <ui:IMGUIContainer name="header" style="border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px; height: 88px;">
-        <ui:EnumField label="File Type" type="Pathfinding.SaveUtils+SupportedFileTypes, Assembly-CSharp" name="filetype" />
-        <uie:ObjectField label="Map File" type="Pathfinding.SOMapData, Assembly-CSharp, TextAsset" name="sofile" allow-scene-objects="true" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
-        <uie:ObjectField label="Map File" type="UnityEngine.TextAsset, UnityEngine.CoreModule" name="jsonfile" allow-scene-objects="true" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+    <ui:IMGUIContainer name="header" style="border-top-width: 10px; border-right-width: 10px; border-bottom-width: 0; border-left-width: 10px; height: 83px;">
+        <ui:EnumField label="File Type" type="Pathfinding.SaveUtils+SupportedFileTypes, Assembly-CSharp" name="filetype" binding-path="fileType" />
+        <uie:ObjectField label="Map File" type="Pathfinding.SOMapData, Assembly-CSharp, TextAsset" name="sofile" allow-scene-objects="true" binding-path="SOfile" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+        <uie:ObjectField label="Map File" type="UnityEngine.TextAsset, UnityEngine.CoreModule" name="jsonfile" allow-scene-objects="true" binding-path="JSONfile" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
     </ui:IMGUIContainer>
     <ui:Foldout text="Dimensions" name="dimensions" style="border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px;">
-        <ui:IntegerField label="Width" value="1" name="width" />
-        <ui:IntegerField label="Height" value="1" name="height" />
-        <ui:Vector2Field label="Cell Size" name="cellsize" x="1" y="1" />
-        <ui:Vector2Field label="Origin" name="origin" />
+        <ui:IntegerField label="Width" value="1" name="width" binding-path="width" />
+        <ui:IntegerField label="Height" value="1" name="height" binding-path="height" />
+        <ui:Vector2Field label="Cell Size" name="cellsize" x="1" y="1" binding-path="cellSize" />
+        <ui:Vector2Field label="Origin" name="origin" binding-path="origin" />
     </ui:Foldout>
-    <ui:Foldout text="Walkability Settings" name="ignore" style="border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px;">
+    <ui:Foldout text="Edit Walkable Nodes" name="walkability" style="border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px;">
+        <ui:Toggle label="Toggle" name="showgrid" text="Show Map In Scene" value="false" style="display: flex; border-top-width: 5px; border-right-width: 0; border-bottom-width: 10px; border-left-width: 0;" />
         <uie:LayerMaskField label="Unwalkable Layers" value="0" name="ignorelayers" />
         <uie:ObjectField label="Unwalkable Colliders" allow-scene-objects="true" type="UnityEngine.Collider2D, UnityEngine.Physics2DModule" name="ignorecolliders" />
-    </ui:Foldout>
-    <ui:Foldout text="Manual Editing" style="border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px;">
-        <ui:Toggle label="Toggle" name="showgrid" text="Show Map In Scene" style="display: flex;" />
-        <ui:Button text="Edit Mode" parse-escape-sequences="true" display-tooltip-when-elided="true" name="editmap" />
+        <ui:Button text="Manual Edit Mode" parse-escape-sequences="true" display-tooltip-when-elided="true" name="editmap" style="border-top-width: 10px;" />
     </ui:Foldout>
     <ui:Button text="Save Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="save" style="border-top-width: 5px;" />
     <ui:Button text="Create New Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="createnewmap" style="border-top-width: 10px;" />
     <ui:TextField picking-mode="Ignore" label="File Name" value="New Map File" name="filename" />
+    <ui:IntegerField label="Integer Field" value="42" name="test" binding-path="MapMakingEditor.testInt" />
 </ui:UXML>

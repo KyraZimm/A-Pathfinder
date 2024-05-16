@@ -17,10 +17,18 @@ public class MapMakingEditor : EditorWindow {
     EnumField fileTypeField;
 
     //file handling
-    private SaveUtils.SupportedFileTypes fileType;
-    private SOMapData SOfile;
-    private TextAsset JSONfile;
+    [SerializeField] private SaveUtils.SupportedFileTypes fileType;
+    [SerializeField] private SOMapData SOfile;
+    [SerializeField] private TextAsset JSONfile;
     const string EXPORT_FOLDER_PATH = "Assets/MapData";
+
+    //map dimensions / visibility
+    Grid<SavedPathNode> dispGrid;
+    [SerializeField] int width;
+    [SerializeField] int height;
+    [SerializeField] Vector2 cellSize;
+    [SerializeField] Vector2 origin;
+
 
 
     #region Layout Updates & Setup
@@ -35,16 +43,11 @@ public class MapMakingEditor : EditorWindow {
         //header setup
         fileTypeField = rootVisualElement.Q<EnumField>("filetype");
         fileTypeField.RegisterValueChangedCallback(OnHeaderChanged);
-
-        ObjectField soFileField = rootVisualElement.Q<ObjectField>("sofile");
-        soFileField.RegisterValueChangedCallback(OnSaveFileChangedEvent);
-        SOfile = (SOMapData)soFileField.value;
-
-        ObjectField jsonFileField = rootVisualElement.Q<ObjectField>("jsonfile");
-        jsonFileField.RegisterValueChangedCallback(OnSaveFileChangedEvent);
-        JSONfile = (TextAsset)jsonFileField.value;
-
         UpdateHeader();
+
+        //add binding fields from UI Builder
+        SerializedObject so = new SerializedObject(this);
+        rootVisualElement.Bind(so);
     }
 
     private void OnHeaderChanged(ChangeEvent<System.Enum> evt) { UpdateHeader((SaveUtils.SupportedFileTypes)evt.newValue); }
@@ -65,27 +68,11 @@ public class MapMakingEditor : EditorWindow {
                 break;
         }
     }
+
     #endregion
 
 
     #region File Handling
-    private void OnSaveFileChangedEvent(ChangeEvent<UnityEngine.Object> evt) {
-        switch (fileType) {
-            case SaveUtils.SupportedFileTypes.SO:
-                SetNewSOFile((SOMapData)evt.newValue);
-                break;
-            case SaveUtils.SupportedFileTypes.JSON:
-                SetNewJSONFile((TextAsset)evt.newValue);
-                break;
-        }
-    }
-
-    private void SetNewSOFile(SOMapData newFile) {
-        SOfile = newFile;
-    }
-
-    private void SetNewJSONFile(TextAsset newFile) {
-        JSONfile = newFile;
-    }
+    
     #endregion
 }
