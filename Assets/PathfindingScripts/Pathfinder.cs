@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Pathfinding {
     public class Pathfinder {
 
+        //NOTE: these costs are only correct as long as node size is 1:1. need to update these or restrict node size
         const int MOVE_STRAIGHT_COST = 10;
         const int MOVE_DIAGONAL_COST = 14;
 
