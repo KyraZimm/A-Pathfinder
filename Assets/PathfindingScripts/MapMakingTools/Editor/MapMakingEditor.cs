@@ -13,6 +13,16 @@ using UnityEditor.UIElements;
 public class MapMakingEditor : EditorWindow {
     public VisualTreeAsset uxml;
 
+    //layout refs
+    EnumField fileTypeField;
+
+    //file handling
+    private SaveUtils.SupportedFileTypes fileType;
+    private SOMapData SOfile;
+    private TextAsset JSONfile;
+    const string EXPORT_FOLDER_PATH = "Assets/MapData";
+
+
     #region Layout Updates & Setup
     [MenuItem("Pathfinder Tools/Map Maker")] public static void ShowEditor() {
         EditorWindow wnd = GetWindow<MapMakingEditor>();
@@ -21,6 +31,61 @@ public class MapMakingEditor : EditorWindow {
 
     private void CreateGUI() {
         uxml.CloneTree(rootVisualElement);
+
+        //header setup
+        fileTypeField = rootVisualElement.Q<EnumField>("filetype");
+        fileTypeField.RegisterValueChangedCallback(OnHeaderChanged);
+
+        ObjectField soFileField = rootVisualElement.Q<ObjectField>("sofile");
+        soFileField.RegisterValueChangedCallback(OnSaveFileChangedEvent);
+        SOfile = (SOMapData)soFileField.value;
+
+        ObjectField jsonFileField = rootVisualElement.Q<ObjectField>("jsonfile");
+        jsonFileField.RegisterValueChangedCallback(OnSaveFileChangedEvent);
+        JSONfile = (TextAsset)jsonFileField.value;
+
+        UpdateHeader();
+    }
+
+    private void OnHeaderChanged(ChangeEvent<System.Enum> evt) { UpdateHeader((SaveUtils.SupportedFileTypes)evt.newValue); }
+    private void UpdateHeader() {
+        System.Enum val = fileTypeField.value;
+        UpdateHeader((SaveUtils.SupportedFileTypes)val);
+    }
+    private void UpdateHeader(SaveUtils.SupportedFileTypes overrideValue) {
+        fileType = overrideValue;
+        switch (fileType) {
+            case SaveUtils.SupportedFileTypes.SO:
+                rootVisualElement.Q<ObjectField>("sofile").style.display = DisplayStyle.Flex;
+                rootVisualElement.Q<ObjectField>("jsonfile").style.display = DisplayStyle.None;
+                break;
+            case SaveUtils.SupportedFileTypes.JSON:
+                rootVisualElement.Q<ObjectField>("sofile").style.display = DisplayStyle.None;
+                rootVisualElement.Q<ObjectField>("jsonfile").style.display = DisplayStyle.Flex;
+                break;
+        }
+    }
+    #endregion
+
+
+    #region File Handling
+    private void OnSaveFileChangedEvent(ChangeEvent<UnityEngine.Object> evt) {
+        switch (fileType) {
+            case SaveUtils.SupportedFileTypes.SO:
+                SetNewSOFile((SOMapData)evt.newValue);
+                break;
+            case SaveUtils.SupportedFileTypes.JSON:
+                SetNewJSONFile((TextAsset)evt.newValue);
+                break;
+        }
+    }
+
+    private void SetNewSOFile(SOMapData newFile) {
+        SOfile = newFile;
+    }
+
+    private void SetNewJSONFile(TextAsset newFile) {
+        JSONfile = newFile;
     }
     #endregion
 }

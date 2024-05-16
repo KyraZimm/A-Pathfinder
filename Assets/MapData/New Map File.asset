@@ -462,25 +462,25 @@ MonoBehaviour:
         item:
           x: 9
           y: 1
-          isWalkable: 1
+          isWalkable: 0
       - index0: 9
         index1: 2
         item:
           x: 9
           y: 2
-          isWalkable: 1
+          isWalkable: 0
       - index0: 9
         index1: 3
         item:
           x: 9
           y: 3
-          isWalkable: 1
+          isWalkable: 0
       - index0: 9
         index1: 4
         item:
           x: 9
           y: 4
-          isWalkable: 1
+          isWalkable: 0
       - index0: 9
         index1: 5
         item:
@@ -510,7 +510,7 @@ MonoBehaviour:
         item:
           x: 10
           y: 1
-          isWalkable: 1
+          isWalkable: 0
       - index0: 10
         index1: 2
         item:
@@ -528,7 +528,7 @@ MonoBehaviour:
         item:
           x: 10
           y: 4
-          isWalkable: 1
+          isWalkable: 0
       - index0: 10
         index1: 5
         item:
@@ -570,13 +570,13 @@ MonoBehaviour:
         item:
           x: 11
           y: 3
-          isWalkable: 1
+          isWalkable: 0
       - index0: 11
         index1: 4
         item:
           x: 11
           y: 4
-          isWalkable: 1
+          isWalkable: 0
       - index0: 11
         index1: 5
         item:
@@ -618,13 +618,13 @@ MonoBehaviour:
         item:
           x: 12
           y: 3
-          isWalkable: 1
+          isWalkable: 0
       - index0: 12
         index1: 4
         item:
           x: 12
           y: 4
-          isWalkable: 1
+          isWalkable: 0
       - index0: 12
         index1: 5
         item:
@@ -654,7 +654,7 @@ MonoBehaviour:
         item:
           x: 13
           y: 1
-          isWalkable: 1
+          isWalkable: 0
       - index0: 13
         index1: 2
         item:
@@ -672,7 +672,7 @@ MonoBehaviour:
         item:
           x: 13
           y: 4
-          isWalkable: 1
+          isWalkable: 0
       - index0: 13
         index1: 5
         item:
@@ -702,25 +702,25 @@ MonoBehaviour:
         item:
           x: 14
           y: 1
-          isWalkable: 1
+          isWalkable: 0
       - index0: 14
         index1: 2
         item:
           x: 14
           y: 2
-          isWalkable: 1
+          isWalkable: 0
       - index0: 14
         index1: 3
         item:
           x: 14
           y: 3
-          isWalkable: 1
+          isWalkable: 0
       - index0: 14
         index1: 4
         item:
           x: 14
           y: 4
-          isWalkable: 1
+          isWalkable: 0
       - index0: 14
         index1: 5
         item:
