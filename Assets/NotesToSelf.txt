@@ -15,5 +15,5 @@ Bugs:
 - Need to press "Edit Mode" button more than once
 
 CURRENT TASK:
--  Designer can change presaved map sizes
+-  reorg for editor window
 -  Map auto-create options

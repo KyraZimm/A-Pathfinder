@@ -1,18 +1,24 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <uie:ObjectField label="TEMP: Cell Prefab        " type="UnityEngine.GameObject, UnityEngine.CoreModule" binding-path="cellPrefab" />
-    <uie:ToolbarSpacer style="height: 20px; width: 348px;" />
-    <ui:IMGUIContainer name="Export">
-        <uie:ObjectField label="Save File" type="PathfindingMapData, Assembly-CSharp" binding-path="saveFile" name="SaveFile" />
-        <ui:Button text="Save Map Data" parse-escape-sequences="true" display-tooltip-when-elided="true" focusable="true" name="SaveMapData" enable-rich-text="true" />
+    <ui:IMGUIContainer name="header" style="border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px; height: 88px;">
+        <ui:EnumField label="File Type" type="Pathfinding.SaveUtils+SupportedFileTypes, Assembly-CSharp" name="filetype" />
+        <uie:ObjectField label="Map File" type="Pathfinding.SOMapData, Assembly-CSharp, TextAsset" name="sofile" allow-scene-objects="true" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+        <uie:ObjectField label="Map File" type="UnityEngine.TextAsset, UnityEngine.CoreModule" name="jsonfile" allow-scene-objects="true" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
     </ui:IMGUIContainer>
-    <uie:ToolbarSpacer style="height: 20px; width: 348px;" />
-    <ui:Foldout text="Create New Map" name="NewMap">
-        <ui:Vector2Field label="Map Origin" name="origin" binding-path="origin" />
-        <ui:Vector2Field label="Cell Size" name="cellsize" binding-path="cellSize" />
-        <ui:IntegerField label="Num Map Cells Across" value="1" name="height" binding-path="width" />
-        <ui:IntegerField label="Num Map Cells High    " value="1" name="width" binding-path="height" />
-        <uie:ToolbarSpacer style="height: 12px; width: 348px;" />
-        <ui:TextField picking-mode="Ignore" label="File Name" value="New Map" name="filename" binding-path="newSaveFileName" />
-        <ui:Button text="Create New Map Data" parse-escape-sequences="true" display-tooltip-when-elided="true" name="NewMapData" />
-    </ui:Foldout>
+    <uie:Toolbar>
+        <uie:ToolbarButton text="Edit Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="edit" />
+        <uie:ToolbarButton text="Generate New Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="newmap" enable-rich-text="true" />
+    </uie:Toolbar>
+    <ui:IMGUIContainer name="editmappanel" style="display: flex; visibility: visible;">
+        <ui:Toggle label="Toggle" name="showgrid" text="Show Map In Scene" style="display: flex;" />
+        <ui:Button text="Edit Mode" parse-escape-sequences="true" display-tooltip-when-elided="true" name="editmap" />
+        <ui:Button text="Save Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="save" style="border-top-width: 5px;" />
+    </ui:IMGUIContainer>
+    <ui:IMGUIContainer name="newmappanel" style="display: flex; border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px;">
+        <ui:IntegerField label="Width" value="1" name="width" />
+        <ui:IntegerField label="Height" value="1" name="height" />
+        <ui:Vector2Field label="Cell Size" name="cellsize" x="1" y="1" />
+        <ui:Vector2Field label="Origin" name="origin" />
+        <ui:TextField picking-mode="Ignore" label="File Name" value="New Map File" name="filename" />
+        <ui:Button text="Create New Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="createnewmap" style="border-top-width: 10px;" />
+    </ui:IMGUIContainer>
 </ui:UXML>

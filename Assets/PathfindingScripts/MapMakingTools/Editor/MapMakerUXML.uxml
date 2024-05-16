@@ -4,21 +4,21 @@
         <uie:ObjectField label="Map File" type="Pathfinding.SOMapData, Assembly-CSharp, TextAsset" name="sofile" allow-scene-objects="true" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
         <uie:ObjectField label="Map File" type="UnityEngine.TextAsset, UnityEngine.CoreModule" name="jsonfile" allow-scene-objects="true" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
     </ui:IMGUIContainer>
-    <uie:Toolbar>
-        <uie:ToolbarButton text="Edit Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="edit" />
-        <uie:ToolbarButton text="Generate New Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="newmap" enable-rich-text="true" />
-    </uie:Toolbar>
-    <ui:IMGUIContainer name="editmappanel" style="display: flex; visibility: visible;">
-        <ui:Toggle label="Toggle" name="showgrid" text="Show Map In Scene" style="display: flex;" />
-        <ui:Button text="Edit Mode" parse-escape-sequences="true" display-tooltip-when-elided="true" name="editmap" />
-        <ui:Button text="Save Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="save" style="border-top-width: 5px;" />
-    </ui:IMGUIContainer>
-    <ui:IMGUIContainer name="newmappanel" style="display: flex; border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px;">
+    <ui:Foldout text="Dimensions" name="dimensions" style="border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px;">
         <ui:IntegerField label="Width" value="1" name="width" />
         <ui:IntegerField label="Height" value="1" name="height" />
         <ui:Vector2Field label="Cell Size" name="cellsize" x="1" y="1" />
         <ui:Vector2Field label="Origin" name="origin" />
-        <ui:TextField picking-mode="Ignore" label="File Name" value="New Map File" name="filename" />
-        <ui:Button text="Create New Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="createnewmap" style="border-top-width: 10px;" />
-    </ui:IMGUIContainer>
+    </ui:Foldout>
+    <ui:Foldout text="Walkability Settings" name="ignore" style="border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px;">
+        <uie:LayerMaskField label="Unwalkable Layers" value="0" name="ignorelayers" />
+        <uie:ObjectField label="Unwalkable Colliders" allow-scene-objects="true" type="UnityEngine.Collider2D, UnityEngine.Physics2DModule" name="ignorecolliders" />
+    </ui:Foldout>
+    <ui:Foldout text="Manual Editing" style="border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px;">
+        <ui:Toggle label="Toggle" name="showgrid" text="Show Map In Scene" style="display: flex;" />
+        <ui:Button text="Edit Mode" parse-escape-sequences="true" display-tooltip-when-elided="true" name="editmap" />
+    </ui:Foldout>
+    <ui:Button text="Save Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="save" style="border-top-width: 5px;" />
+    <ui:Button text="Create New Map" parse-escape-sequences="true" display-tooltip-when-elided="true" name="createnewmap" style="border-top-width: 10px;" />
+    <ui:TextField picking-mode="Ignore" label="File Name" value="New Map File" name="filename" />
 </ui:UXML>
