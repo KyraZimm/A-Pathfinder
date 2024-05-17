@@ -62,7 +62,7 @@ using UnityEngine;
             unserialized[serialized[i].index0, serialized[i].index1] = serialized[i].item;
     }
 
-    public void ChangeArraySize(int newLength0, int newLength1) {
+    /*public void ChangeArraySize(int newLength0, int newLength1) {
         //make sure array size is never negative
         if (newLength0 < 0) newLength0 = 0;
         if (newLength1 < 0) newLength1 = 0;
@@ -75,6 +75,6 @@ using UnityEngine;
 
         //set new array
         unserialized = copyTo;
-    }
+    }*/
     
 }

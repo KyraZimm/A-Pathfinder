@@ -68,7 +68,7 @@ using UnityEngine;
         return cells.Array[x, y];
     }
 
-    public void ChangeGridDimensions(int numColumnsToAdd, int numRowsToAdd) { //accepts negative integers if items should be removed
+    /*public void ChangeGridDimensions(int numColumnsToAdd, int numRowsToAdd) { //accepts negative integers if items should be removed
         width += numColumnsToAdd;
         height += numRowsToAdd;
 
@@ -77,7 +77,7 @@ using UnityEngine;
         if (height < 1) height = 1;
 
         cells.ChangeArraySize(width, height);
-    }
+    }*/
 
     public void SetCellSize(Vector2 newCellSize) { cellSize = newCellSize; }
     public void SetOrigin(Vector2 newOrigin) { origin = newOrigin; }

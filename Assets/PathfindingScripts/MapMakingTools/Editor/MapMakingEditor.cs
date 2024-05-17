@@ -16,7 +16,6 @@ public class MapMakingEditor : EditorWindow {
     //layout refs
     EnumField fileTypeField;
     Button saveButton;
-    IntegerField widthField;
 
     //file handling
     [SerializeField] private SaveUtils.SupportedFileTypes fileType;
@@ -53,18 +52,22 @@ public class MapMakingEditor : EditorWindow {
 
         UpdateHeader();
 
-        //dimension layout setup
-
-
         //save func
         saveButton = rootVisualElement.Q<Button>("save");
         saveButton.clicked += SaveMapContents;
 
+        Toggle showGridToggle = rootVisualElement.Q<Toggle>("showgrid");
+        showGridToggle.RegisterValueChangedCallback(OnShowMapToggle);
+
         //add binding fields from UI Builder
         SerializedObject so = new SerializedObject(this);
         rootVisualElement.Bind(so);
+
+        //inst. disp grid
+        dispGrid = new Grid<SavedPathNode>(width, height, cellSize, origin);
     }
 
+    //HEADER LAYOUT
     private void OnHeaderChanged(ChangeEvent<System.Enum> evt) { UpdateHeader((SaveUtils.SupportedFileTypes)evt.newValue); }
     private void UpdateHeader() {
         System.Enum val = fileTypeField.value;
@@ -84,15 +87,24 @@ public class MapMakingEditor : EditorWindow {
         }
     }
 
-    private void OnInspectorUpdate() { UpdateWindowState(); }
+    //LAYOUT UPDATES
+    private void OnInspectorUpdate() {
+        UpdateWindowState();
+    }
 
     private void UpdateWindowState() {
         bool saveFilePresent = (fileType == SaveUtils.SupportedFileTypes.SO && SOfile != null) || (fileType == SaveUtils.SupportedFileTypes.JSON && JSONfile != null);
         bool changesMade = EditorUtility.IsDirty(this);
-        bool gridSizeEdited = !(dispGrid.GetWidth() == width && dispGrid.GetHeight() == height);
 
         saveButton.SetEnabled(saveFilePresent && changesMade);
         UpdateDispGridSize();
+    }
+
+    private void OnDisable() { OnCloseWindow(); }
+    private void OnDestroy() { OnCloseWindow(); }
+
+    private void OnCloseWindow() {
+        SceneView.duringSceneGui -= ProjectGrid;
     }
 
     #endregion
@@ -128,8 +140,6 @@ public class MapMakingEditor : EditorWindow {
     }
 
     private void SaveMapContents() {
-        dispGrid = new Grid<SavedPathNode>(width, height, cellSize, origin); //TEMP
-
         switch (fileType) {
             case SaveUtils.SupportedFileTypes.SO:
                 SOfile.grid = dispGrid;
@@ -149,16 +159,54 @@ public class MapMakingEditor : EditorWindow {
 
 
     #region Visualization & Editing
-
     private void UpdateDispGridSize() {
         //see if 2D grid array needs to be resized
         int widthDiff = width - dispGrid.GetWidth();
         int heightDiff = height - dispGrid.GetHeight();
-        if (widthDiff != 0 || heightDiff != 0) dispGrid.ChangeGridDimensions(widthDiff, heightDiff);
+        if (widthDiff != 0 || heightDiff != 0) {
+            Grid<SavedPathNode> resized = new Grid<SavedPathNode>(width, height, cellSize, origin);
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    SavedPathNode copyValue = dispGrid.GetValueAtCoords(x, y);
+                    resized.SetValueAtCoords(x, y, copyValue);
+                }
+            }
+            dispGrid = resized;
+        }
 
-        //make sure cell size and origin also match
+        //make sure cell size and origin match
         if (dispGrid.GetCellSize() != cellSize) dispGrid.SetOrigin(cellSize);
         if (dispGrid.GetOrigin() != origin) dispGrid.SetOrigin(origin);
+    }
+
+    private void OnShowMapToggle(ChangeEvent<bool> evt) {
+        if (evt.newValue) {
+            //show grid
+            SceneView.duringSceneGui += ProjectGrid;
+            ProjectGrid(SceneView.currentDrawingSceneView);
+        }
+        else {
+            //hide grid
+            SceneView.duringSceneGui -= ProjectGrid;
+        }
+    }
+
+    private void ProjectGrid(SceneView sceneView) {
+        //if dispgrid needs to be updated, wait
+        if (width != dispGrid.GetWidth() || height != dispGrid.GetHeight())
+            return;
+
+        Vector2 offset = new Vector2(-cellSize.x / 2, -cellSize.y / 2);
+        for (int x = 0; x < dispGrid.GetWidth(); x++) {
+            for (int y = 0; y < dispGrid.GetHeight(); y++) {
+                Vector2 rectOrigin = dispGrid.GetCellWorldPos(x, y) + offset; //get top-left corner of node
+                Rect rect = new Rect(rectOrigin.x, rectOrigin.y, cellSize.x, cellSize.y);
+
+                SavedPathNode node = dispGrid.GetValueAtCoords(x, y);
+                if (node == null) continue;
+                Handles.DrawSolidRectangleWithOutline(rect, (node.isWalkable ? Color.clear : Color.white), Color.white);
+            }
+        }
     }
     #endregion
 }

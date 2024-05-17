@@ -5,8 +5,8 @@
         <uie:ObjectField label="Map File" type="UnityEngine.TextAsset, UnityEngine.CoreModule" name="jsonfile" allow-scene-objects="true" binding-path="JSONfile" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
     </ui:IMGUIContainer>
     <ui:Foldout text="Dimensions" name="dimensions" style="border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px;">
-        <ui:IntegerField label="Width" value="1" name="width" binding-path="width" />
-        <ui:IntegerField label="Height" value="1" name="height" binding-path="height" />
+        <ui:IntegerField label="Width" value="1" name="width" binding-path="width" is-delayed="true" />
+        <ui:IntegerField label="Height" value="1" name="height" binding-path="height" is-delayed="true" />
         <ui:Vector2Field label="Cell Size" name="cellsize" x="1" y="1" binding-path="cellSize" />
         <ui:Vector2Field label="Origin" name="origin" binding-path="origin" />
     </ui:Foldout>
